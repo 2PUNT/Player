@@ -5,7 +5,8 @@
 
 enum StringType{
 	RELOAD,
-	HEALTH
+	HEALTH,
+	ENTIRE_SCREEN
 };
 
 class DisplayControl{
