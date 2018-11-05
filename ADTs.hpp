@@ -1,5 +1,6 @@
 #ifndef PLAYER_ADTS_HPP
 #define PLAYER_ADTS_HPP
+#include "hwlib.hpp"
 
 struct HitData{
 public:
@@ -15,12 +16,12 @@ public:
 struct PlayerDataCollection{
 public:
 	int8_t PlayerID;
-	int PlayerFirePower;
-	int PlayerHealth;
-	HitData HitDataArray*;
-	int HitDataLength;
-	ShotData ShotDataArray*;
-	int ShotDataLength;
+	int8_t PlayerFirePower;
+	int8_t PlayerHealth;
+	HitData* HitDataArray;
+	uint16_t HitDataLength;
+	ShotData* ShotDataArray;
+	uint16_t ShotDataLength;
 };
 
 #endif
