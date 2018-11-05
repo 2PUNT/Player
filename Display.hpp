@@ -3,8 +3,6 @@
 
 #include "rtos.hpp"
 
-// hoe geef je een enum mee als paramter?
-
 enum StringType{
 	RELOAD,
 	HEALTH
@@ -13,6 +11,7 @@ enum StringType{
 class DisplayControl{
 public:
 	void DisplayString(char* s, StringType ID);
+	void DisplayString(int, StringType ID);
 	void Clear(StringType ID);
 };
 
