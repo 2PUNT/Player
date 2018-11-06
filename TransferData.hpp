@@ -8,14 +8,14 @@ class TransferDataControl: public rtos::task<>{
 	private:
 		PlayerData & pdata;
 		HitDatas & hdata;
-		ShotData & sdata;
+		ShotDatas & sdata;
 		PersonalComputer & PC;
 
 	public:
 		TransferDataControl(
 			PlayerData & pdata,
 			HitDatas & hdata,
-			ShotData & sdata,
+			ShotDatas & sdata,
 			PersonalComputer & PC):
 			pdata(pdata),
 			hdata(hdata),
@@ -48,7 +48,7 @@ class PersonalComputer{
 					playerData.ShotDataLength
 				);
 				seperatorLine();
-				print_hitLog(playerData.HitDataArray);
+				print_hitLog(playerData.HitDataArray); // can be implemented
 				print_health(playerData.PlayerHealth);
 		}
 
@@ -68,31 +68,8 @@ class PersonalComputer{
 			hwlib::cout << "Je hebt " << ShotDataLength << "aantal keer geschoten en daardoor heb je " << ShotDataLength * PlayerFirePower << " aantal seconden moeten wachten" << hwlib::endl;
 			hwlib::cout << "je bent in de volgorde geraakt door de volgende mensen in de aflopende aantallen" << hwlib::endl;
 			hwlib::cout << "Je bent " << HitDataLength   << "aantal keer beschoten en daardoor heb je " << (HitDataLength * 2)  << "aantal seconden moeten wachten" << hwlib::endl; // TODO: Time defined for hit wait
-			print_hitLog();
 		}
 
-		void print_hitLog(HitDataArray hd){
-
-			hwlib::cout << "Nu volgt de weergave wie je geraakt heeft en hoevaak: " << hwlib::endl;
-			struct shooter {
-				int8_t shooterID;
-				int8_t score = 0;
-			};
-			struct shooters{
-				shooter[9] reg_shooters;
-			};
-
-			for(auto x : hd){
-				shooters.reg_shooters[x.ShooterID] = score+=1;
-			}
-			// sorting shooter
-
-			for(auto z: shooters.reg_shooters){
-				if(z.score != 0){
-					hwlib::cout << "Nummer " << z.shooterID << " heeft je " << z.score << "x geraakt!"
-				}
-			}
-		}
 
 		void print_health(int8_t PlayerHealth){
 			hwlib::cout << "tot slot was de eindstand van je health: " << PlayerHealth <<  hwlib::endl;
