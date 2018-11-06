@@ -1,6 +1,7 @@
 #ifndef PLAYER_SHOOTCONTROL_HPP
 #define PLAYER_SHOOTCONTROL_HPP
 
+#include "hwlib.hpp"
 #include "rtos.hpp"
 
 class ShootControl: public rtos::task<>, public IRunGameTask{
