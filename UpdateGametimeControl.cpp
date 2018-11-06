@@ -29,14 +29,14 @@ void UpdateGameTimeControl::main(){
 	while(true){
 		switch(CurrentState){
 			case WaitForStart:
-				rtos::wait(StartFlagTime);
+				wait(StartFlagTime);
 				gameTime = remainingTime.Get();
 				startTime = hwlib::now_us()/1000;
 				CurrentState = Idle
 			
 			case Idle:
 				digitLedDisplay.Display(msToTimeMinutes(gameTime), msToTimeSeconds(gameTime));
-				lastEvent = rtos::wait(combinedEvents);
+				lastEvent = wait(combinedEvents);
 				if(lastEvent == GameTimeClock){
 					gameTime = (hwlib::now_us()/1000) - startTime;
 					remainingTime.Set(gameTime);

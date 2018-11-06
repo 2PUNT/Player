@@ -21,13 +21,13 @@ void main(){
 	while(true){
 		switch(currentState){
 			case WaitForStart:
-				rtos::wait(StartFlagShoot);
+				wait(StartFlagShoot);
 				reloadTime = playerData.GetFirePower() * 1000;
 				shootMessage = encodeDecoder.EncodeMessage(Message(playerData.GetID(), playerData.GetFirePower())); // message composed of player's ID and Firepower.
 				currentState = Idle;
 			
 			case Idle:
-				lastEvent = rtos::wait(combinedWaitsIdle);
+				lastEvent = wait(combinedWaitsIdle);
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == PressedButtonsQueue){
 					lastPressedButtonID = PressedButtonsQueue.read();
@@ -40,7 +40,7 @@ void main(){
 				}
 			
 			case Reload:
-				lastEvent = rtos::wait(combinedWaitsReload);
+				lastEvent = wait(combinedWaitsReload);
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == ShootTimer){
 					displayControl.Clear(RELOAD);
