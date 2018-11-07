@@ -6,10 +6,12 @@
 #include "Entities.hpp"
 #include "ADTs.hpp"
 #include "SpeakerControl.hpp"
+#include "IRunGameTask.hpp"
+#include "EncodeDecodeMSG.hpp"
 
 #include "Dummies.cpp"
 
-class ShootControl: public rtos::task<>, public IRunGameTask{
+class ShootControl: public rtos::task<>, public IRunGameTask {
 private:
 	rtos::flag StartFlagShoot;
 	rtos::channel<int, 5> PressedButtonsQueue;
@@ -17,7 +19,7 @@ private:
 	rtos::flag GameOverFlagShoot;
 	rtos::timer ShootTimer;
 	
-	enum ShootControlStates = { WaitForStart, Idle, Reload };
+	enum ShootControlStates{ WaitForStart, Idle, Reload };
 	ShootControlStates currentState;
 	
 	PlayerData& playerData;
