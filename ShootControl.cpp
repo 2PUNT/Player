@@ -1,27 +1,32 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
+#include "ShootControl.hpp"
+
 #include "ADTs.hpp"
 #include "SpeakerControl.hpp"
 
 #include "Dummies.cpp"
 
-void Start(){
+void ShootControl::Start(){
+	hwlib::cout << "ShootControl: Start() called\n";
 	StartFlagShoot.set();
 }
-void GameOver(){
+void ShootControl::GameOver(){
 	GameOverFlagShoot.set();
 }
-void ButtonPressed(int ButtonID){
+void ShootControl::ButtonPressed(int ButtonID){
+	hwlib::cout << "ShootControl: Receiving ButtonID\n";
 	PressedButtonsQueue.write(ButtonID);
+	hwlib::cout << "ShootControl: ButtonID Received\n";
 }
-void ButtonReleased(int ButtonID){
+void ShootControl::ButtonReleased(int ButtonID){
 	ReleasedButtonsQueue.write(ButtonID);
 }
 	
-void main(){
-	rtos::event combinedWaitsIdle = GameOverFlagShoot + PressedButtonsQueue;
-	rtos::event combinedWaitsReload = GameOverFlagShoot + ShootTimer;
+void ShootControl::main(){
+	//rtos::event combinedWaitsIdle = GameOverFlagShoot + PressedButtonsQueue;
+	//rtos::event combinedWaitsReload = GameOverFlagShoot + ShootTimer;
 	rtos::event lastEvent = GameOverFlagShoot + ShootTimer; // rtos::event does not have a default contructor....
 	while(true){
 		switch(currentState){
@@ -33,7 +38,8 @@ void main(){
 				break;
 			}
 			case Idle:{
-				lastEvent = wait(combinedWaitsIdle);
+				hwlib::cout << "ShootControl: Now Idle\n";
+				lastEvent = wait(GameOverFlagShoot + PressedButtonsQueue);
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == PressedButtonsQueue){
 					lastPressedButtonID = PressedButtonsQueue.read();
@@ -48,7 +54,9 @@ void main(){
 				break;
 			}
 			case Reload:{
-				lastEvent = wait(combinedWaitsReload);
+				hwlib::cout << "ShootControl: Reloading\n";
+				lastEvent = wait(GameOverFlagShoot + ShootTimer);
+				hwlib::cout << "ShootControl: Reloading Done\n";
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == ShootTimer){
 					displayControl.Clear(StringType::RELOAD);
