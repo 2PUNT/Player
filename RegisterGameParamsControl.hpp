@@ -40,13 +40,13 @@ public:
 	RegisterGameParamsControl(const unsigned int priority, const char* name):
 	task(priority, name), KeyPressedRegQueue(this, "KeyPressedRegQueue"), MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"){};
 	
-	///@fn RegisterGameParamsControl::CommandReceived(Message Command)
+	///@fn void RegisterGameParamsControl::CommandReceived(Message Command)
 	///@brief Receive command Message.
 	///@details This function writes the command message to a pool.
 	///@param The Command to write.
 	void CommandReceived(Message Command);
 	
-	///@fn RegisterGameParamsControl::KeyboardKeyPressed(char Key)
+	///@fn void RegisterGameParamsControl::KeyboardKeyPressed(char Key)
 	///@brief Receive Key
 	///@details This function writes the Key to a pool.
 	///@param Key The Key to write.
