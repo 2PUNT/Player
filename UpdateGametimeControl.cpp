@@ -28,13 +28,14 @@ void UpdateGameTimeControl::main(){
 	rtos::event lastEvent = GameOverFlagTime+GameTimeClock; // not a very clean way, but rtos::event does not have an empty contructor
 	while(true){
 		switch(CurrentState){
-			case WaitForStart:
+			case WaitForStart:{
 				wait(StartFlagTime);
 				gameTime = remainingTime.Get();
 				startTime = hwlib::now_us()/1000;
 				CurrentState = Idle
-			
-			case Idle:
+				break;
+			}
+			case Idle:{
 				digitLedDisplay.Display(msToTimeMinutes(gameTime), msToTimeSeconds(gameTime));
 				lastEvent = wait(combinedEvents);
 				if(lastEvent == GameTimeClock){
@@ -49,6 +50,8 @@ void UpdateGameTimeControl::main(){
 				}else if(lastEvent == GameOverFlagTime){
 					suspend(); // end the task!
 				}
+				break;
+			}
 		}
 	}
 }
