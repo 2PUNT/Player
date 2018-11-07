@@ -1,6 +1,11 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
+#include "ADTs.hpp"
+#include "SpeakerControl.hpp"
+
+#include "Dummies.cpp"
+
 void Start(){
 	StartFlagShoot.set();
 }
@@ -33,7 +38,8 @@ void main(){
 				else if(lastEvent == PressedButtonsQueue){
 					lastPressedButtonID = PressedButtonsQueue.read();
 					if(lastPressedButtonID != triggerButtonID) break; // do nothing
-					displayControl.DisplayString("Reloading", RELOAD);
+					shotDatas.Add(ShotData(remainingTime.Get()));
+					displayControl.DisplayString("Reloading", StringType::RELOAD);
 					sendIrMessageControl.sendMessage(shootMessage);
 					speakerControl.MakeSound(ShootSound);
 					ShootTimer.set(reloadTime);
@@ -45,7 +51,7 @@ void main(){
 				lastEvent = wait(combinedWaitsReload);
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == ShootTimer){
-					displayControl.Clear(RELOAD);
+					displayControl.Clear(StringType::RELOAD);
 					currentState = Idle;
 				}
 				break;
@@ -67,6 +73,8 @@ private:
 	ShootControlStates currentState;
 	
 	PlayerData& playerData;
+	ShotDatas& shotDatas;
+	RemainingTime& remainingTime;
 	EncodeDecodeMSG& encodeDecoder;
 	DisplayControl& displayControl;
 	SendIrMessageControl& sendIrMessageControl;

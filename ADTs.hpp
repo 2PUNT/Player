@@ -4,12 +4,14 @@
 
 struct HitData{
 public:
+	HitData(int8_t _ShooterID, int _HitTimeMS): ShooterID(_ShooterID), HitTimeMS(_HitTimeMS){}
 	int8_t ShooterID;
 	int HitTimeMS;
 };
 
 struct ShotData{
 public:
+	ShotData(int _ShotTimeMS): ShotTimeMS(_ShotTimeMS){}
 	int ShotTimeMS;
 };
 
