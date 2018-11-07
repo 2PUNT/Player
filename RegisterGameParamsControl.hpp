@@ -7,9 +7,10 @@
 
 /// @file
 
-/// \brief
+/// @class RegisterGameParamsControl
+/// @brief
 /// Task for setting player values
-/// \details
+/// @details
 /// the function of this task is to set the playernumber, firepower, and time. After all these variables have been set this task starts the game.
 /// The playernumber and firepower are set using an keypad. The playerNumber and firepower are set by pressing A or B Respectivly. Followed by a single digit (that is greater than 0).
 /// The time and the signal to start the game are set by receiving an Message ADT through an rtos channel.
@@ -31,10 +32,24 @@ private:
 	
 	void main();
 public:
+	///@fn RegisterGameParamsControl::RegisterGameParamsControl(const unsigned int priority, const char* name)
+	///@brief The constructor for the RegisterGameParamsControl class.
+	///details This constructor creates a RegisterGameParamsControl object.
+	///@param priority Priority of the task.
+	///@param name Name of the task.
 	RegisterGameParamsControl(const unsigned int priority, const char* name):
 	task(priority, name), KeyPressedRegQueue(this, "KeyPressedRegQueue"), MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"){};
 	
+	///@fn RegisterGameParamsControl::CommandReceived(Message Command)
+	///@brief Receive command Message.
+	///@details This function writes the command message to a pool.
+	///@param The Command to write.
 	void CommandReceived(Message Command);
+	
+	///@fn RegisterGameParamsControl::KeyboardKeyPressed(char Key)
+	///@brief Receive Key
+	///@details This function writes the Key to a pool.
+	///@param Key The Key to write.
 	void KeyboardKeyPressed(char Key);
 };
 

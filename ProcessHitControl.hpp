@@ -24,10 +24,15 @@ class ProcessHitControl: public rtos::task<>, public IRunGameTask{
 	
 	void main();
 public:
+	///@fn ProcessHitControl::ProcessHitControl(const unsigned int priority, const char* name)
+	///@brief
+	///@details
+	///@param priority 
+	///@param name 
 	ProcessHitControl(const unsigned int priority, const char* name):
-	task(priority, name), MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
-	StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),
-	ProcessHitTimer(this, "ProcessHitTimer"){};
+		task(priority, name), MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
+		StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),
+		ProcessHitTimer(this, "ProcessHitTimer"){};
 /// \brief
 /// starts this task
 	void Start();
