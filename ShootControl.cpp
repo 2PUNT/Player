@@ -20,13 +20,14 @@ void main(){
 	rtos::event lastEvent = GameOverFlagShoot + ShootTimer; // rtos::event does not have a default contructor....
 	while(true){
 		switch(currentState){
-			case WaitForStart:
+			case WaitForStart:{
 				wait(StartFlagShoot);
 				reloadTime = playerData.GetFirePower() * 1000;
 				shootMessage = encodeDecoder.EncodeMessage(Message(playerData.GetID(), playerData.GetFirePower())); // message composed of player's ID and Firepower.
 				currentState = Idle;
-			
-			case Idle:
+				break;
+			}
+			case Idle:{
 				lastEvent = wait(combinedWaitsIdle);
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == PressedButtonsQueue){
@@ -38,18 +39,21 @@ void main(){
 					ShootTimer.set(reloadTime);
 					currentState = Reload;
 				}
-			
-			case Reload:
+				break;
+			}
+			case Reload:{
 				lastEvent = wait(combinedWaitsReload);
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == ShootTimer){
 					displayControl.Clear(RELOAD);
 					currentState = Idle;
 				}
+				break;
+			}
 		}
 	}
 }
-
+/* 
 
 class ShootControl: public rtos::task<>, public IRunGameTask{
 private:
@@ -87,3 +91,4 @@ public:
 	
 	void main();
 };
+ */
