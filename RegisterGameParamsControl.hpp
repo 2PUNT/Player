@@ -30,6 +30,12 @@ private:
 	/// Check if the GameTime has been changed
 	bool TimeCheck = 0;
 	
+	RemainingTime& remainingTime;
+	ProcessHitControl& processHitControl;
+	UpdateGameTimeControl& gameTimeControl;
+	ShootControl& shootControl;
+	PlayerData& playerData;
+	
 	void main();
 public:
 	///@fn RegisterGameParamsControl::RegisterGameParamsControl(const unsigned int priority, const char* name)
@@ -37,8 +43,10 @@ public:
 	///details This constructor creates a RegisterGameParamsControl object.
 	///@param priority Priority of the task.
 	///@param name Name of the task.
-	RegisterGameParamsControl(const unsigned int priority, const char* name):
-	task(priority, name), KeyPressedRegQueue(this, "KeyPressedRegQueue"), MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"){};
+	RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, PlayerData& _playerData):
+		task(priority, name), KeyPressedRegQueue(this, "KeyPressedRegQueue"), MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"),
+		remainingTime(_remainingTime), processHitControl(_processHitControl), gameTimeControl(_gameTimeControl), shootControl(_shootControl),
+		playerData(_playerData){};
 	
 	///@fn RegisterGameParamsControl::CommandReceived(Message Command)
 	///@brief Receive command Message.
