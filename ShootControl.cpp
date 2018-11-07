@@ -17,13 +17,15 @@ void ShootControl::GameOver(){
 }
 void ShootControl::ButtonPressed(int ButtonID){
 	hwlib::cout << "ShootControl: Receiving ButtonID\n";
-	PressedButtonsQueue.write(ButtonID);
+	//PressedButtonsQueue.write(ButtonID);
+	PressedButtonPool.write(ButtonID);
+	PressedButtonFlag.set();
 	hwlib::cout << "ShootControl: ButtonID Received\n";
 }
 void ShootControl::ButtonReleased(int ButtonID){
 	ReleasedButtonsQueue.write(ButtonID);
 }
-	
+
 void ShootControl::main(){
 	//rtos::event combinedWaitsIdle = GameOverFlagShoot + PressedButtonsQueue;
 	//rtos::event combinedWaitsReload = GameOverFlagShoot + ShootTimer;
@@ -32,17 +34,17 @@ void ShootControl::main(){
 		switch(currentState){
 			case WaitForStart:{
 				wait(StartFlagShoot);
-				reloadTime = playerData.GetFirePower() * 1000;
+				reloadTime = playerData.GetFirePower() * 1000000;
 				shootMessage = encodeDecoder.EncodeMessage(Message(playerData.GetID(), playerData.GetFirePower())); // message composed of player's ID and Firepower.
 				currentState = Idle;
 				break;
 			}
 			case Idle:{
 				hwlib::cout << "ShootControl: Now Idle\n";
-				lastEvent = wait(GameOverFlagShoot + PressedButtonsQueue);
+				lastEvent = wait(GameOverFlagShoot + PressedButtonFlag);
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
-				else if(lastEvent == PressedButtonsQueue){
-					lastPressedButtonID = PressedButtonsQueue.read();
+				else if(lastEvent == PressedButtonFlag){
+					lastPressedButtonID = PressedButtonPool.read();
 					if(lastPressedButtonID != triggerButtonID) break; // do nothing
 					shotDatas.Add(ShotData(remainingTime.Get()));
 					displayControl.DisplayString("Reloading", StringType::RELOAD);
