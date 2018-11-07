@@ -34,15 +34,15 @@ public:
 		StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),
 		ProcessHitTimer(this, "ProcessHitTimer"){};
 	
-	///@fn ProcessHitControl::Start()
+	///@fn void ProcessHitControl::Start()
 	///@brief Starts this task.
 	void Start();
 	
-	///@fn ProcessHitControl::GameOver()
+	///@fn void ProcessHitControl::GameOver()
 	///@brief ends this task.
 	void GameOver();
 	
-	///@fn ProcessHitControl::HitReceived(Message hit)
+	///@fn void ProcessHitControl::HitReceived(Message hit)
 	///@brief call this to start registering a hit.
 	///@param hit The hit message.
 	void HitReceived(Message hit);
