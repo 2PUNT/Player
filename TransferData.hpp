@@ -42,14 +42,15 @@ class PersonalComputer{
 		void RegisterData(PlayerDataCollection playerData){
 				seperatorLine();
 				print_intro(playerData.PlayerID);
+				seperatorLine();
 				print_activities(
 					playerData.PlayerFirePower,
 					playerData.HitDataLength,
 					playerData.ShotDataLength
 				);
 				seperatorLine();
-				print_hitLog(playerData.HitDataArray); // can be implemented
 				print_health(playerData.PlayerHealth);
+				seperatorLine();
 		}
 
 		void seperatorLine(){
@@ -59,7 +60,6 @@ class PersonalComputer{
 			hwlib::cout << "Beste "           << id  << hwlib::endl;
 			hwlib::cout << "Je hebt zojuist een potje gespeeld en je krijgt nu de voortgang van het potje te zien." << hwlib::endl;
 			hwlib::cout << "allereerst krijg je de activiteiten van het potje te zien en daarna krijg je een aantal scores te zien" << hwlib::endl;
-			seperatorLine();
 		}
 
 
