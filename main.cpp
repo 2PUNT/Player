@@ -34,6 +34,7 @@ const unsigned int PriorityShootControl;
 const unsigned int PriorityUpdateGameTimeControl;
 const unsigned int PriorityProcessHitControl;
 const unsigned int PriorityRegisterGameParamsControl;
+const unsigned int PriorityMSGDecoderControl;
 
 // <<<<<<<<<< Other Data >>>>>>>>>>//
 uint16_t irTransmitterLow;
@@ -83,7 +84,7 @@ TransferDataControl transferDataControl = TransferDataControl(playerData, hitDat
 
 // <<<<<<<<<< Buttons >>>>>>>>>>//
 hwlib::target::pin_in triggerButtonPin = hwlib::target::pin_in(triggerButtonPinID);
-Button triggerButton = Button(triggerButtonPin, triggerButtonID, PriorityTriggerButton, "triggerButton");
+Button<1> triggerButton = Button<1>(triggerButtonPin, triggerButtonID, PriorityTriggerButton, "triggerButton");
 
 // <<<<<<<<<< Keyboard_4x4 >>>>>>>>>>//
 hwlib::target::pin_oc out0 = hwlib::target::pin_oc( out0ID );
@@ -107,15 +108,21 @@ Keyboard_4x4<1> keyboard = Keyboard_4x4<1>(keypad, 0, "TheKeyBoard");
 ShootControl shootControl = ShootControl(PriorityShootControl, "shootControl", playerData, shotDatas,
 	remainingTime, encodeDecodeMSG, displayControl, sendIrMessageControl, speakerControl, triggerButtonID);
 
+IButtonListener* shootControl_ButtonListener = &shootControl;
+triggerButton.SetButtonListener(shootControl_ButtonListener); // add shootControl to the listeners of the triggerButton.
+
 IRunGameTaskDummy irunGameTaskDummy // a tmp Dummy to fix a small circular reference we have....
-UpdateGameTimeControl updateGameTimeControl = UpdateGameTimeControl(PriorityUpdateGameTimeControl, "updateGameTimeControl", remainingTime, digitLedDisplay, shootControl, irunGameTaskDummy, speakerControl);
+UpdateGameTimeControl updateGameTimeControl = UpdateGameTimeControl(PriorityUpdateGameTimeControl, "updateGameTimeControl", remainingTime, digitLedDisplay, shootControl, irunGameTaskDummy, speakerControl); // give a dummy for now
 ProcessHitControl processHitControl = ProcessHitControl(PriorityProcessHitControl, "processHitControl", updateGameTimeControl, shootControl);
-updateGameTimeControl.SetProcessHitControl(processHitControl); // and the circular reference is fixed.
+updateGameTimeControl.SetProcessHitControl(processHitControl); // replace the dummy with the actual processHitControl and the circular reference is fixed.
 
 // <<<<<<<<<< RegisterGameParamsControl >>>>>>>>>>//
 RegisterGameParamsControl registerGameParamsControl = RegisterGameParamsControl(PriorityRegisterGameParamsControl, "registerGameParamsControl", remainingTime, processHitControl,
 	updateGameTimeControl, shootControl, playerData);
 
-// <<<<<<<<<< MSGDecoderControl >>>>>>>>>>//
+IKeyboardListener* registerGameParamsControl_KeyboardListener = &registerGameParamsControl;
+keyboard.setKeyboardListener(registerGameParamsControl_KeyboardListener); // add registerGameParamsControl to the listeners of the keyboard.
 
-MSGDecoderControl msgDecoderControl = MSGDecoderControl(const unsigned int priority, const char* taskName, MessageChanneler& _Channeler)
+// <<<<<<<<<< MSGDecoderControl >>>>>>>>>>//
+MessageChanneler messageChanneler = MessageChanneler(registerGameParamsControl, processHitControl);
+MSGDecoderControl msgDecoderControl = MSGDecoderControl(PriorityMSGDecoderControl, "msgDecoderControl", messageChanneler);
