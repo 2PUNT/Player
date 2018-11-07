@@ -25,22 +25,26 @@ class ProcessHitControl: public rtos::task<>, public IRunGameTask{
 	void main();
 public:
 	///@fn ProcessHitControl::ProcessHitControl(const unsigned int priority, const char* name)
-	///@brief
-	///@details
-	///@param priority 
-	///@param name 
+	///@brief The constructor for the ProcessHitControl class.
+	///@details This contructor creates a ProcessHitControl object.
+	///@param priority Priority of the task.
+	///@param name Name of the task.
 	ProcessHitControl(const unsigned int priority, const char* name):
 		task(priority, name), MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
 		StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),
 		ProcessHitTimer(this, "ProcessHitTimer"){};
-/// \brief
-/// starts this task
+	
+	///@fn ProcessHitControl::Start()
+	///@brief Starts this task.
 	void Start();
-/// \brief
-/// ends this task
+	
+	///@fn ProcessHitControl::GameOver()
+	///@brief ends this task.
 	void GameOver();
-/// \brief
-/// call this to start registering a hit
+	
+	///@fn ProcessHitControl::HitReceived(Message hit)
+	///@brief call this to start registering a hit.
+	///@param hit The hit message.
 	void HitReceived(Message hit);
 };
 
