@@ -19,8 +19,8 @@ private:
 	ProcessHitControl& HitControl;
 public:
     MessageChanneler(RegisterGameParamsControl& _RegGame, ProcessHitControl& _HitControl):
-	RegGame(),
-	HitControl()	
+	RegGame(_RegGame),
+	HitControl(_HitControl)	
 	{};
     void SendMessage(Message m){
         if(m.senderID == 0x00){
