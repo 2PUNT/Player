@@ -8,3 +8,4 @@
 #include "ShootControl.hpp"
 #include "TransferData.hpp"
 #include "UpdateGametimeControl.hpp"
+#include "IRunGameTaskDummy.hpp"
