@@ -1,0 +1,24 @@
+[submodule "lib/Button"]
+	path = lib/Button
+	url = git@github.com:2PUNT/Button.git
+[submodule "lib/IRSend"]
+	path = lib/IRSend
+	url = git@github.com:2PUNT/IRSend.git
+[submodule "lib/IRReceiver"]
+	path = lib/IRReceiver
+	url = git@github.com:2PUNT/IRReceiver.git
+[submodule "lib/DigitLedDisplay"]
+	path = lib/DigitLedDisplay
+	url = git@github.com:2PUNT/DigitLedDisplay.git
+[submodule "lib/EncodeDecodeMSG"]
+	path = lib/EncodeDecodeMSG
+	url = git@github.com:2PUNT/EncodeDecodeMSG.git
+[submodule "lib/Keyboard_4x4"]
+	path = lib/Keyboard_4x4
+	url = git@github.com:2PUNT/Keyboard_4x4.git
+[submodule "lib/Speaker"]
+	path = lib/Speaker
+	url = git@github.com:2PUNT/Speaker.git
+[submodule "lib/DisplayOLED"]
+	path = lib/DisplayOLED
+	url = git@github.com:2PUNT/DisplayOLED.git
