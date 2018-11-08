@@ -20,3 +20,6 @@ _dummy.jpg
 bmptk_*_stack.c
 _push.bat
 Dummies.cpp
+*.due
+*.link
+*.native
