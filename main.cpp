@@ -63,11 +63,6 @@ int main(void){
 	RemainingTime remainingTime = RemainingTime();
 	ShotDatas shotDatas = ShotDatas();
 
-	// <<<<<<<<<< IRReceiver >>>>>>>>>>//
-	hwlib::target::pin_in irReceiverPin = hwlib::target::pin_in(irReceiverPinID);
-	IrReceiver irReceiver = IrReceiver(irReceiverPinr);
-	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiver); // Geen priority??
-
 	// <<<<<<<<<< DisplayOLED >>>>>>>>>>//
 	auto playerDisplayScl     = hwlib::target::pin_oc(  playerDisplaySCLPinID );
 	auto playerDisplaySda     = hwlib::target::pin_oc(  playerDisplaySDAPinID );
@@ -140,4 +135,14 @@ int main(void){
 	// <<<<<<<<<< MSGDecoderControl >>>>>>>>>>//
 	MessageChanneler messageChanneler = MessageChanneler(registerGameParamsControl, processHitControl);
 	MSGDecoderControl msgDecoderControl = MSGDecoderControl(PriorityMSGDecoderControl, "msgDecoderControl", messageChanneler);
+
+	// <<<<<<<<<< IRReceiver >>>>>>>>>>//
+	hwlib::target::pin_in irReceiverPin = hwlib::target::pin_in(irReceiverPinID);
+	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiverPinr); // Geen priority?? Geen reference naar irReceiver?? Geen reference naar msgDecoderControl??
+	// This is how it should be done:
+	/*
+	IrReceiver irReceiver = IrReceiver(irReceiverPinr);
+	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiver, msgDecoderControl);
+	*/
+	
 }
