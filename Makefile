@@ -9,15 +9,19 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES :=
+SOURCES := Entities.cpp
 
 # header files in this project
-HEADERS := Keyboard_4x4.hpp IKeyboardListener.hpp IRunGameTask.hpp MSGDecoderControl.hpp  ShootControl.hpp UpdateGametimeControl.hpp IncludeThisToIncludeAllPlayerFiles.hpp  MessageDecoder.hpp RegisterGameParamsControl.hpp ProcessHitControl.hpp Entities.hpp TransferData.hpp Keyboard_4x4.hpp ShootControl.hpp Speaker.hpp SpeakerControl.hpp SoundDefinitions.hpp IrReceiver.hpp EncodeDecodeMSG.hpp DisplayControl.hpp note.hpp IrTransmitter.hpp SendIrMessageControl.hpp PauseDetectionControl.hpp Button.hpp IButtonListener.hpp
+HEADERS :=  DigitLedDisplay.hpp EncodeDecodeMSG.hpp IrReceiver.hpp PauseDetectionControl.hpp IrTransmitter.hpp SendIrMessageControl.hpp Keyboard_4x4.hpp Speaker.hpp SpeakerControl.hpp DisplayControl.hpp TransferData.hpp Entities.hpp ShootControl.hpp IRunGameTask.hpp IRunGameTaskDummy.hpp MSGDecoderControl.hpp RegisterGameParamsControl.hpp ProcessHitControl.hpp UpdateGameTimeControl.hpp
+
+
+
+
 
 
 # other places to look for files for this project
-SEARCH  := lib/
+SEARCH  :=
 
 # set RELATIVE to the next higher directory and defer to the Makefile.due
-RELATIVE := $(RELATIVE)../
+RELATIVE := $(RELATIVE)
 include $(RELATIVE)Makefile.due

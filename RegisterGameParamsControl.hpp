@@ -34,12 +34,12 @@ private:
 	bool TimeCheck = 0;
 	ProcessHitControl& processHitControl;
 	RemainingTime& remainingTime;
-	
-	//UpdateGameTimeControl& gameTimeControl;
-	//ShootControl& shootControl;
+
+	UpdateGameTimeControl& gameTimeControl;
+	ShootControl& shootControl;
 	PlayerData& playerData;
 	//IRunGameTask& RunGame;
-	
+
 	void main();
 public:
 	///@fn RegisterGameParamsControl::RegisterGameParamsControl(const unsigned int priority, const char* name)
@@ -47,17 +47,15 @@ public:
 	///details This constructor creates a RegisterGameParamsControl object.
 	///@param priority Priority of the task.
 	///@param name Name of the task.
-	RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, /*UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, */PlayerData& _playerData):
-		task(priority, name), startTimer(this, "startTimer"), KeyPressedRegQueue(this, "KeyPressedRegQueue"),MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"), /*RunGame(RunGame),MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"),
-		remainingTime(_remainingTime), gameTimeControl(_gameTimeControl), shootControl(_shootControl),
-		*/ processHitControl(_processHitControl), remainingTime(_remainingTime),playerData(_playerData){};
-	
+	RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, PlayerData& _playerData): task(priority, name), startTimer(this, "startTimer"), KeyPressedRegQueue(this, "KeyPressedRegQueue"), MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"),
+		 processHitControl(_processHitControl), remainingTime(_remainingTime), gameTimeControl(_gameTimeControl), shootControl(_shootControl), playerData(_playerData){};
+
 	///@fn void RegisterGameParamsControl::CommandReceived(Message Command)
 	///@brief Receive command Message.
 	///@details This function writes the command message to a pool.
 	///@param The Command to write.
 	void CommandReceived(Message Command);
-	
+
 	///@fn void RegisterGameParamsControl::KeyboardKeyPressed(char Key)
 	///@brief Receive Key
 	///@details This function writes the Key to a pool.

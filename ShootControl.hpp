@@ -8,10 +8,11 @@
 #include "SpeakerControl.hpp"
 #include "IRunGameTask.hpp"
 #include "EncodeDecodeMSG.hpp"
+#include "SendIrMessageControl.hpp"
+#include "DisplayControl.hpp"
 
-#include "Dummies.cpp"
 
-class ShootControl: public rtos::task<>, public IRunGameTask {
+class ShootControl: public rtos::task<>, public IRunGameTask, public IButtonListener {
 private:
 	rtos::flag StartFlagShoot;
 	rtos::channel<int, 100> PressedButtonsQueue;
@@ -20,10 +21,10 @@ private:
 	rtos::channel<int, 5> ReleasedButtonsQueue;
 	rtos::flag GameOverFlagShoot;
 	rtos::timer ShootTimer;
-	
+
 	enum ShootControlStates{ WaitForStart, Idle, Reload };
 	ShootControlStates currentState;
-	
+
 	PlayerData& playerData;
 	ShotDatas& shotDatas;
 	RemainingTime& remainingTime;
@@ -31,9 +32,9 @@ private:
 	DisplayControl& displayControl;
 	SendIrMessageControl& sendIrMessageControl;
 	SpeakerControl& speakerControl;
-	
+
 	uint8_t triggerButtonID;
-	
+
 	int lastPressedButtonID;
 	int lastReleasedButtonID;
 	int reloadTime; // time to reload in ms
@@ -43,12 +44,12 @@ public:
 		task(priority, taskName), StartFlagShoot(this, "StartFlagShoot"), PressedButtonsQueue(this, "PressedButtonsQueue"), ReleasedButtonsQueue(this, "ReleasedButtonsQueue"), GameOverFlagShoot(this, "GameOverFlagShoot"),
 		ShootTimer(this, "ShootTimer"), playerData(_playerData), shotDatas(_shotDatas), remainingTime(_remainingTime),encodeDecoder(_encodeDecoder), displayControl(_displayControl), sendIrMessageControl(_sendIrMessageControl), speakerControl(_speakerControl), triggerButtonID(triggerID)
 		{currentState = WaitForStart;}
-	
+
 	void Start();
 	void GameOver();
 	void ButtonPressed(int ButtonID);
 	void ButtonReleased(int ButtonID);
-	
+
 	void main();
 };
 

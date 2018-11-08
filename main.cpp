@@ -1,56 +1,65 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
 
-#include "IncludeThisToIncludeAllPlayerFiles.hpp"
+#include "Entities.hpp"
 
-#include "IrReceiver.hpp"
-#include "PauseDetectionControl.hpp"
 #include "Button.hpp"
+#include "UpdateGametimeControl.hpp"
+#include "ProcessHitControl.hpp"
+#include "ShootControl.hpp"
 #include "DigitLedDisplay.hpp"
 #include "DisplayControl.hpp"
 #include "EncodeDecodeMSG.hpp"
 #include "IrReceiver.hpp"
-#include "PauseDetectionControl.hpp"
 #include "IrTransmitter.hpp"
 #include "SendIrMessageControl.hpp"
 #include "Keyboard_4x4.hpp"
 #include "Speaker.hpp"
 #include "SpeakerControl.hpp"
+#include "TransferData.hpp"
+#include "IRunGameTask.hpp"
+#include "IRunGameTaskDummy.hpp"
+#include "MSGDecoderControl.hpp"
+#include "PauseDetectionControl.hpp"
+
+#include "RegisterGameParamsControl.hpp"
 
 int main(void){
 	// kill the watchdog
 	WDT->WDT_MR = WDT_MR_WDDIS;
-
+	 namespace target = hwlib::target;
 	// <<<<<<<<<< Initialization of Data >>>>>>>>>>//
 	// <<<<<<<<<< All pins used >>>>>>>>>>//
-	hwlib::target::pins irReceiverPinID;
-	hwlib::target::pins playerDisplaySCLPinID;
-	hwlib::target::pins playerDisplaySDAPinID;
-	hwlib::target::pins digitLedDisplayCLKPinID;
-	hwlib::target::pins digitLedDisplayDIOPinID;
-	hwlib::target::pins speakerPinID;
+	hwlib::target::pins irReceiverPinID =  hwlib::target::pins::a0;
+	hwlib::target::pins playerDisplaySCLPinID =  hwlib::target::pins::a0;
+	hwlib::target::pins playerDisplaySDAPinID =  hwlib::target::pins::a0;
+	hwlib::target::pins digitLedDisplayCLKPinID =  hwlib::target::pins::a0;
+	hwlib::target::pins digitLedDisplayDIOPinID =  hwlib::target::pins::a0;
 	hwlib::target::d2_36kHz IrTransmitterLED;
-	hwlib::target::pins triggerButtonPinID;
+	hwlib::target::pins triggerButtonPinID=  hwlib::target::pins::a0;
+
+
 	// Keyboard:
-	hwlib::target::pins out0ID;
-	hwlib::target::pins out1ID;
-	hwlib::target::pins out2ID;
-	hwlib::target::pins out3ID;
-	hwlib::target::pins in0ID;
-	hwlib::target::pins in1ID;
-	hwlib::target::pins in2ID;
-	hwlib::target::pins in3ID;
+	hwlib::target::pins out0ID =   hwlib::target::pins::a0 ;
+	hwlib::target::pins out1ID =   hwlib::target::pins::a1 ;
+	hwlib::target::pins out2ID =   hwlib::target::pins::a2 ;
+	hwlib::target::pins out3ID =   hwlib::target::pins::a3 ;
+	hwlib::target::pins in0ID  =   hwlib::target::pins::a4 ;
+	hwlib::target::pins in1ID  =   hwlib::target::pins::a5 ;
+	hwlib::target::pins in2ID  =   hwlib::target::pins::a6 ;
+	hwlib::target::pins in3ID  =   hwlib::target::pins::a7 ;
+
 
 	// <<<<<<<<<< All priorities >>>>>>>>>>//
 	// const unsigned int PriorityPauseDetectionControl <<< Not used, pauseDetectionControl has no priority?
-	const unsigned int PrioritySpeakerControl;
-	const unsigned int PrioritySendIrMessageControl
-	const unsigned int PriorityTriggerButton;
-	const unsigned int PriorityShootControl;
-	const unsigned int PriorityUpdateGameTimeControl;
-	const unsigned int PriorityProcessHitControl;
-	const unsigned int PriorityRegisterGameParamsControl;
-	const unsigned int PriorityMSGDecoderControl;
+	const unsigned int PrioritySpeakerControl 			= 9;
+	const unsigned int PrioritySendIrMessageControl = 4;
+	const unsigned int PriorityTriggerButton				= 3;
+	const unsigned int PriorityShootControl 				= 5;
+	const unsigned int PriorityUpdateGameTimeControl= 11;
+	const unsigned int PriorityProcessHitControl		= 10;
+	const unsigned int PriorityRegisterGameParamsControl = 7;
+	const unsigned int PriorityMSGDecoderControl    = 6;
 
 	// <<<<<<<<<< Sounds >>>>>>>>>>//
 	note gameOverSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
@@ -60,12 +69,12 @@ int main(void){
 	GameOverSound = gameOverSound;
 	ShootSound = shootSound;
 	HitSound = hitSound;
-	
+
 	// <<<<<<<<<< Other Data >>>>>>>>>>//
-	int defaultPlayerHealth;
-	uint16_t irTransmitterLow;
-	uint16_t irTransmitterHigh;
-	int triggerButtonID;
+	int defaultPlayerHealth = 100;
+	uint16_t irTransmitterLow = 1600;
+	uint16_t irTransmitterHigh = 1800;
+	int triggerButtonID = 1;
 
 
 	// <<<<<<<<<< Creation and Initialization of classes >>>>>>>>>>//
@@ -80,18 +89,18 @@ int main(void){
 	auto playerDisplayScl     = hwlib::target::pin_oc(  playerDisplaySCLPinID );
 	auto playerDisplaySda     = hwlib::target::pin_oc(  playerDisplaySDAPinID );
 	auto playerDisplayI2c_bus = hwlib::i2c_bus_bit_banged_scl_sda( playerDisplayScl, playerDisplaySda );
-	hwlib::glcd_oled playerDisplay = hwlib::glcd_oled( playerDisplayI2c_bus, 0x3c ));
-	
+	hwlib::glcd_oled playerDisplay = hwlib::glcd_oled( playerDisplayI2c_bus, 0x3c );
+
 	auto w1 = hwlib::window_part(
 		playerDisplay,
 		hwlib::location( 0, 0 ),
 		hwlib::location( 128, 32));
-		
+
 	auto w2 = hwlib::window_part(
 		playerDisplay,
 		hwlib::location( 0, 32 ),
 		hwlib::location( 128, 32));
-		
+
 	auto f1 = hwlib::font_default_8x8();
 	auto d1 = hwlib::window_ostream( w1, f1 );
 
@@ -101,7 +110,7 @@ int main(void){
 	auto ose = hwlib::window_part(
 		playerDisplay, hwlib::location( 0, 0 ),
 	hwlib::location( 128, 32));
-	
+
 	DisplayControl displayControl = DisplayControl(playerDisplay,w1, w2, d1, d2, 100);
 
 	// <<<<<<<<<< DigitLedDisplay >>>>>>>>>>//
@@ -110,9 +119,10 @@ int main(void){
 	DigitLedDisplay digitLedDisplay = DigitLedDisplay(digitLedDisplayCLK,digitLedDisplayDIO);
 
 	// <<<<<<<<<< Speaker >>>>>>>>>>//
-	hwlib::pin_out speakerPin = hwlib::pin_out(speakerPinID);
+	auto speakerPin = target::pin_out( target::pins::d7 );
 	Speaker speaker = Speaker(speakerPin);
 	SpeakerControl speakerControl = SpeakerControl(PrioritySpeakerControl, "speakerControl", speaker);
+
 
 	// <<<<<<<<<< IRSend >>>>>>>>>>//
 	IrTransmitter irTransmitter = IrTransmitter(IrTransmitterLED);
@@ -123,7 +133,7 @@ int main(void){
 
 	// <<<<<<<<<< TransferData >>>>>>>>>>//
 	PersonalComputer personalComputer = PersonalComputer();
-	TransferDataControl transferDataControl = TransferDataControl(playerData, hitDatas, shotData, personalComputer);
+	TransferDataControl tdc(playerData, hitDatas, shotDatas, personalComputer);
 
 	// <<<<<<<<<< Buttons >>>>>>>>>>//
 	hwlib::target::pin_in triggerButtonPin = hwlib::target::pin_in(triggerButtonPinID);
@@ -154,31 +164,33 @@ int main(void){
 	IButtonListener* shootControl_ButtonListener = &shootControl;
 	triggerButton.SetButtonListener(shootControl_ButtonListener); // add shootControl to the listeners of the triggerButton.
 
-	IRunGameTaskDummy irunGameTaskDummy // a tmp Dummy to fix a small circular reference we have....
+
+	IRunGameTaskDummy irunGameTaskDummy; // a tmp Dummy to fix a small circular reference we have....
 	UpdateGameTimeControl updateGameTimeControl = UpdateGameTimeControl(PriorityUpdateGameTimeControl, "updateGameTimeControl", remainingTime, digitLedDisplay, shootControl, irunGameTaskDummy, speakerControl); // give a dummy for now
-	ProcessHitControl processHitControl = ProcessHitControl(PriorityProcessHitControl, "processHitControl", updateGameTimeControl, shootControl);
+	ProcessHitControl processHitControl = ProcessHitControl(PriorityProcessHitControl, "processHitControl", remainingTime, hitDatas, playerData, updateGameTimeControl, shootControl);
+
 	updateGameTimeControl.SetProcessHitControl(processHitControl); // replace the dummy with the actual processHitControl and the circular reference is fixed.
+
+
 
 	// <<<<<<<<<< RegisterGameParamsControl >>>>>>>>>>//
 	RegisterGameParamsControl registerGameParamsControl = RegisterGameParamsControl(PriorityRegisterGameParamsControl, "registerGameParamsControl", remainingTime, processHitControl,
 		updateGameTimeControl, shootControl, playerData);
+
 
 	IKeyboardListener* registerGameParamsControl_KeyboardListener = &registerGameParamsControl;
 	keyboard.setKeyboardListener(registerGameParamsControl_KeyboardListener); // add registerGameParamsControl to the listeners of the keyboard.
 
 	// <<<<<<<<<< MSGDecoderControl >>>>>>>>>>//
 	MessageChanneler messageChanneler = MessageChanneler(registerGameParamsControl, processHitControl);
+
 	MSGDecoderControl msgDecoderControl = MSGDecoderControl(PriorityMSGDecoderControl, "msgDecoderControl", messageChanneler);
 
 	// <<<<<<<<<< IRReceiver >>>>>>>>>>//
 	hwlib::target::pin_in irReceiverPin = hwlib::target::pin_in(irReceiverPinID);
-	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiverPinr); // Geen priority?? Geen reference naar irReceiver?? Geen reference naar msgDecoderControl?? Een pin meegeven aan een Control object? dat is iets voor een Boundary...
-	// This is how it should be done:
-	/*
-	IrReceiver irReceiver = IrReceiver(irReceiverPinr);
+	IrReceiver irReceiver = IrReceiver(irReceiverPin);
 	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiver, msgDecoderControl);
-	*/
-	
+
 	rtos::run();
-	
+
 }

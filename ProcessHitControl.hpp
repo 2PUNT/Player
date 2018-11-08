@@ -19,17 +19,17 @@ class ProcessHitControl: public rtos::task<>, public IRunGameTask{
 	rtos::flag StartFlagHit;
 	rtos::flag GameOverFlagHit;
 	rtos::timer ProcessHitTimer;
-	
+
 	//IRunGameTask& gameTimeControl;
 	//IRunGameTask& shootControl;
 	RemainingTime& time;
 	HitDatas& hitdatas;
 	PlayerData& playerData;
-	
+
 	enum class STATE {WAITING_ON_START, GAME_RUNNING};
 	enum class SUBSTATE {WAITING_ON_HIT, WAITING_ON_TIMER};
 	HitData hit;
-	
+
 	void main();
 public:
 	///@fn ProcessHitControl::ProcessHitControl(const unsigned int priority, const char* name)
@@ -37,25 +37,25 @@ public:
 	///@details This contructor creates a ProcessHitControl object.
 	///@param priority Priority of the task.
 	///@param name Name of the task.
-	ProcessHitControl(const unsigned int priority, const char* name, RemainingTime& time, HitDatas& hitdatas, PlayerData& playerData/*, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl*/):
+	ProcessHitControl(const unsigned int priority, const char* name, RemainingTime& time, HitDatas& hitdatas, PlayerData& playerData, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl):
 		task(priority, name), MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
 		StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),
 		ProcessHitTimer(this, "ProcessHitTimer"), time(time), hitdatas(hitdatas), playerData(playerData){};/*, gameTimeControl(_gameTimeControl),
 		shootControl(_shootControl){};*/
-	
+
 	///@fn void ProcessHitControl::Start()
 	///@brief Starts this task.
 	void Start();
-	
+
 	///@fn void ProcessHitControl::GameOver()
 	///@brief ends this task.
 	void GameOver();
-	
+
 	///@fn void ProcessHitControl::HitReceived(Message hit)
 	///@brief call this to start registering a hit.
 	///@param hit The hit message.
 	void HitReceived(Message hit);
-	
+
 };
 
 #endif
