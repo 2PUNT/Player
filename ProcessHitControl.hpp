@@ -3,6 +3,8 @@
 
 #include "rtos.hpp"
 #include "ADTs.hpp"
+#include "IRunGameTask.hpp"
+#include "Entities.hpp"
 /// @file
 
 /// \brief
@@ -18,8 +20,11 @@ class ProcessHitControl: public rtos::task<>, public IRunGameTask{
 	rtos::flag GameOverFlagHit;
 	rtos::timer ProcessHitTimer;
 	
-	IRunGameTask& gameTimeControl;
-	IRunGameTask& shootControl;
+	//IRunGameTask& gameTimeControl;
+	//IRunGameTask& shootControl;
+	RemainingTime& time;
+	HitDatas& hitdatas;
+	PlayerData& playerData;
 	
 	enum class STATE {WAITING_ON_START, GAME_RUNNING};
 	enum class SUBSTATE {WAITING_ON_HIT, WAITING_ON_TIMER};
@@ -32,11 +37,11 @@ public:
 	///@details This contructor creates a ProcessHitControl object.
 	///@param priority Priority of the task.
 	///@param name Name of the task.
-	ProcessHitControl(const unsigned int priority, const char* name, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl):
+	ProcessHitControl(const unsigned int priority, const char* name, RemainingTime& time, HitDatas& hitdatas, PlayerData& playerData/*, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl*/):
 		task(priority, name), MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
 		StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),
-		ProcessHitTimer(this, "ProcessHitTimer"), gameTimeControl(_gameTimeControl),
-		shootControl(_shootControl){};
+		ProcessHitTimer(this, "ProcessHitTimer"), time(time), hitdatas(hitdatas), playerData(playerData){};/*, gameTimeControl(_gameTimeControl),
+		shootControl(_shootControl){};*/
 	
 	///@fn void ProcessHitControl::Start()
 	///@brief Starts this task.
