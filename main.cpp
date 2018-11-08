@@ -62,6 +62,7 @@ int main(void){
 	HitSound = hitSound;
 	
 	// <<<<<<<<<< Other Data >>>>>>>>>>//
+	int defaultPlayerHealth;
 	uint16_t irTransmitterLow;
 	uint16_t irTransmitterHigh;
 	int triggerButtonID;
@@ -70,6 +71,7 @@ int main(void){
 	// <<<<<<<<<< Creation and Initialization of classes >>>>>>>>>>//
 	// <<<<<<<<<< Entities >>>>>>>>>>//
 	PlayerData playerData = PlayerData();
+	playerData.SetHealth(defaultPlayerHealth);
 	HitDatas hitDatas = HitDatas();
 	RemainingTime remainingTime = RemainingTime();
 	ShotDatas shotDatas = ShotDatas();
@@ -79,7 +81,28 @@ int main(void){
 	auto playerDisplaySda     = hwlib::target::pin_oc(  playerDisplaySDAPinID );
 	auto playerDisplayI2c_bus = hwlib::i2c_bus_bit_banged_scl_sda( playerDisplayScl, playerDisplaySda );
 	hwlib::glcd_oled playerDisplay = hwlib::glcd_oled( playerDisplayI2c_bus, 0x3c ));
-	DisplayControl displayControl = DisplayControl(playerDisplay);
+	
+	auto w1 = hwlib::window_part(
+		playerDisplay,
+		hwlib::location( 0, 0 ),
+		hwlib::location( 128, 32));
+		
+	auto w2 = hwlib::window_part(
+		playerDisplay,
+		hwlib::location( 0, 32 ),
+		hwlib::location( 128, 32));
+		
+	auto f1 = hwlib::font_default_8x8();
+	auto d1 = hwlib::window_ostream( w1, f1 );
+
+	auto f2 = hwlib::font_default_8x8();
+	auto d2 = hwlib::window_ostream( w2, f2 );
+
+	auto ose = hwlib::window_part(
+		playerDisplay, hwlib::location( 0, 0 ),
+	hwlib::location( 128, 32));
+	
+	DisplayControl displayControl = DisplayControl(playerDisplay,w1, w2, d1, d2, 100);
 
 	// <<<<<<<<<< DigitLedDisplay >>>>>>>>>>//
 	hwlib::target::pin_in_out digitLedDisplayCLK = hwlib::target::pin_in_out(digitLedDisplayCLKPinID);
