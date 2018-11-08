@@ -18,26 +18,28 @@
 #include "SpeakerControl.hpp"
 
 int main(void){
+	// kill the watchdog
+	WDT->WDT_MR = WDT_MR_WDDIS;
 
 	// <<<<<<<<<< Initialization of Data >>>>>>>>>>//
 	// <<<<<<<<<< All pins used >>>>>>>>>>//
-	auto hwlib::target::pins irReceiverPinID;
-	auto hwlib::target::pins playerDisplaySCLPinID;
-	auto hwlib::target::pins playerDisplaySDAPinID;
-	auto hwlib::target::pins digitLedDisplayCLKPinID;
-	auto hwlib::target::pins digitLedDisplayDIOPinID;
-	auto hwlib::target::pins speakerPinID;
-	auto hwlib::target::d2_36kHz IrTransmitterLED;
-	auto hwlib::target::pins triggerButtonPinID;
+	hwlib::target::pins irReceiverPinID;
+	hwlib::target::pins playerDisplaySCLPinID;
+	hwlib::target::pins playerDisplaySDAPinID;
+	hwlib::target::pins digitLedDisplayCLKPinID;
+	hwlib::target::pins digitLedDisplayDIOPinID;
+	hwlib::target::pins speakerPinID;
+	hwlib::target::d2_36kHz IrTransmitterLED;
+	hwlib::target::pins triggerButtonPinID;
 	// Keyboard:
-	auto hwlib::target::pins out0ID;
-	auto hwlib::target::pins out1ID;
-	auto hwlib::target::pins out2ID;
-	auto hwlib::target::pins out3ID;
-	auto hwlib::target::pins in0ID;
-	auto hwlib::target::pins in1ID;
-	auto hwlib::target::pins in2ID;
-	auto hwlib::target::pins in3ID;
+	hwlib::target::pins out0ID;
+	hwlib::target::pins out1ID;
+	hwlib::target::pins out2ID;
+	hwlib::target::pins out3ID;
+	hwlib::target::pins in0ID;
+	hwlib::target::pins in1ID;
+	hwlib::target::pins in2ID;
+	hwlib::target::pins in3ID;
 
 	// <<<<<<<<<< All priorities >>>>>>>>>>//
 	// const unsigned int PriorityPauseDetectionControl <<< Not used, pauseDetectionControl has no priority?
