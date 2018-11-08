@@ -16,7 +16,7 @@ void RegisterGameParamsControl::main(){
 		switch(S){
 			case STATE::WAITING_ON_COMMAND_OR_USER_INPUT:
 			{
-				auto event_t = wait();
+				auto event_t = wait(KeyPressedRegQueue + MessagesReceivedRegQueue);
 				if(event_t == KeyPressedRegQueue){
 					char Key = KeyPressedRegQueue.read();
 					if(Key == 'A'){
@@ -32,15 +32,18 @@ void RegisterGameParamsControl::main(){
 				}else if(event_t == MessagesReceivedRegQueue){
 					auto msg = MessagesReceivedRegQueue.read();
 					if(msg.data != 0){
-						//remainingTime.set(msg.data);
+						remainingTime.Set(msg.data * 60 * 1000);
 						hwlib::cout << "Time set";
 						TimeCheck = 1;
 						break;
 					}else if((msg.data == 0) && TimeCheck && PlayerIDCheck && FirePowerCheck){
-						//processHitControl.start();
+						startTimer.set(5'000'000);
+						hwlib::cout << "waiting on start" << hwlib::endl;
+						wait(startTimer);
+						processHitControl.Start();
 						//gameTimeControl.start();
 						//shootControl.start();
-						hwlib::cout<< "start";
+						hwlib::cout<< "start" << hwlib::endl;
 						suspend();
 					}else{
 						break;
@@ -54,7 +57,7 @@ void RegisterGameParamsControl::main(){
 				char Key = KeyPressedRegQueue.read();
 				if((Key > '0') && (Key < ':')){
 					S = STATE::WAITING_ON_COMMAND_OR_USER_INPUT;
-					//playerData.setID(Key);
+					playerData.SetID(Key);
 					hwlib::cout<< "PlayerData = " << Key << "\n";
 					PlayerIDCheck = 1;
 				}
@@ -66,7 +69,7 @@ void RegisterGameParamsControl::main(){
 				char Key = KeyPressedRegQueue.read();
 				if((Key > '0') && (Key < ':')){
 					S = STATE::WAITING_ON_COMMAND_OR_USER_INPUT;
-					//playerData.setFirepower(Key);
+					playerData.SetFirePower(Key);
 					hwlib::cout<< "Firepower = " << Key << "\n";
 					FirePowerCheck = 1;
 				}

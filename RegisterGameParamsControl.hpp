@@ -4,6 +4,8 @@
 #include "rtos.hpp"
 #include "ADTs.hpp"
 #include "IKeyboardListener.hpp"
+#include "Entities.hpp"
+#include "ProcessHitControl.hpp"
 
 /// @file
 
@@ -17,6 +19,7 @@
 /// once the game has been started(a start signal has been received) this task wil be put in an eternal suspend.
 class RegisterGameParamsControl: public rtos::task<>, public IKeyboardListener{
 private:
+	rtos::timer startTimer;
 	rtos::channel<char,10> KeyPressedRegQueue;
 	rtos::channel<Message,10> MessagesReceivedRegQueue;
 	enum class STATE {WAITING_ON_COMMAND_OR_USER_INPUT, WAITING_FOR_PLAYERNUMBER, WAITING_FOR_FIREPOWER};
@@ -29,12 +32,13 @@ private:
 	/// \brief
 	/// Check if the GameTime has been changed
 	bool TimeCheck = 0;
-	
-	RemainingTime& remainingTime;
 	ProcessHitControl& processHitControl;
-	UpdateGameTimeControl& gameTimeControl;
-	ShootControl& shootControl;
+	RemainingTime& remainingTime;
+	
+	//UpdateGameTimeControl& gameTimeControl;
+	//ShootControl& shootControl;
 	PlayerData& playerData;
+	//IRunGameTask& RunGame;
 	
 	void main();
 public:
@@ -43,10 +47,10 @@ public:
 	///details This constructor creates a RegisterGameParamsControl object.
 	///@param priority Priority of the task.
 	///@param name Name of the task.
-	RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, PlayerData& _playerData):
-		task(priority, name), KeyPressedRegQueue(this, "KeyPressedRegQueue"), MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"),
-		remainingTime(_remainingTime), processHitControl(_processHitControl), gameTimeControl(_gameTimeControl), shootControl(_shootControl),
-		playerData(_playerData){};
+	RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, /*UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, */PlayerData& _playerData):
+		task(priority, name), startTimer(this, "startTimer"), KeyPressedRegQueue(this, "KeyPressedRegQueue"),MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"), /*RunGame(RunGame),MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"),
+		remainingTime(_remainingTime), gameTimeControl(_gameTimeControl), shootControl(_shootControl),
+		*/ processHitControl(_processHitControl), remainingTime(_remainingTime),playerData(_playerData){};
 	
 	///@fn void RegisterGameParamsControl::CommandReceived(Message Command)
 	///@brief Receive command Message.
