@@ -21,7 +21,7 @@ void ShootControl::ButtonPressed(int ButtonID){
 	hwlib::cout << "ShootControl: ButtonID Received\n";
 }
 void ShootControl::ButtonReleased(int ButtonID){
-	ReleasedButtonsQueue.write(ButtonID);
+	//ReleasedButtonsQueue.write(ButtonID);
 }
 
 void ShootControl::main(){

@@ -3,7 +3,7 @@
 
 #include "hwlib.hpp"
 #include "rtos.hpp"
-#include "DigitLedDisplay.hpp"
+//#include "DigitLedDisplay.hpp"
 #include "Entities.hpp"
 #include "ShootControl.hpp"
 #include "ProcessHitControl.hpp"
@@ -17,6 +17,7 @@ private:
 	enum UpdateGameTimeControlStates{WaitForStart, Idle}; // enum for state
 	UpdateGameTimeControlStates CurrentState; // varaible to store the current State.
 	int gameTime; // variable to store the current time of the game.
+	int maxGameTime; // variable to store how long the game can last max.
 	int startTime; // variable to store the start Time in ms.
 	RemainingTime& remainingTime; // Entity to store the remaining time in.
 	DigitLedDisplay& digitLedDisplay; // to display the ramaining time.
@@ -29,8 +30,9 @@ private:
 	
 public:
 	UpdateGameTimeControl(const unsigned int priority, const char* taskName, RemainingTime& _remainingTime, DigitLedDisplay& _digitLedDisplay, IRunGameTask& _shootControl, IRunGameTask& _processHitControl, SpeakerControl& _speakerControl):
-		task(priority, taskName), GameTimeClock(this, 100 MS, "GameTimeClock"), gameTime(0), startTime(0), remainingTime(_remainingTime), digitLedDisplay(_digitLedDisplay), shootControl(_shootControl), processHitControl(_processHitControl),
-		speakerControl(_speakerControl){CurrentState = Idle}
+		task(priority, taskName), StartFlagTime(this, "StartFlagTime"), GameOverFlagTime(this, "GameOverFlagTime"), GameTimeClock(this, 100000, "GameTimeClock"),
+		gameTime(0), maxGameTime(0), startTime(0), remainingTime(_remainingTime), digitLedDisplay(_digitLedDisplay), shootControl(_shootControl), processHitControl(_processHitControl),
+		speakerControl(_speakerControl){CurrentState = WaitForStart;}
 	void Start();
 	void GameOver();
 	void main();

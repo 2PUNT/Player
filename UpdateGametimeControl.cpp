@@ -1,6 +1,6 @@
 #include "hwlib.hpp"
 #include "rtos.hpp"
-#include "DigitLedDisplay.hpp"
+//#include "DigitLedDisplay.hpp"
 #include "Entities.hpp"
 #include "ShootControl.hpp"
 #include "ProcessHitControl.hpp"
@@ -9,11 +9,11 @@
 
 
 int UpdateGameTimeControl::msToTimeSeconds(int timeMS){
-	timeMS/1000;
+	timeMS/=1000;
 	return timeMS%60;
 }
 int UpdateGameTimeControl::msToTimeMinutes(int timeMS){
-	timeMS/60000;
+	timeMS/=60000;
 	return timeMS%60;
 }
 
@@ -35,18 +35,24 @@ void UpdateGameTimeControl::main(){
 		switch(CurrentState){
 			case WaitForStart:{
 				wait(StartFlagTime);
-				gameTime = remainingTime.Get();
+				//hwlib::cout << "UpdateGameTimeControl: Start() called\n";
+				maxGameTime = remainingTime.Get();
 				startTime = hwlib::now_us()/1000;
-				CurrentState = Idle
+				//hwlib::cout << "gameTime: " << gameTime << " startTime: " << startTime << '\n';
+				CurrentState = Idle;
 				break;
 			}
 			case Idle:{
+				//hwlib::cout << "UpdateGameTimeControl: now Idle\n";
 				digitLedDisplay.Display(msToTimeMinutes(gameTime), msToTimeSeconds(gameTime));
 				lastEvent = wait(combinedEvents);
 				if(lastEvent == GameTimeClock){
-					gameTime = (hwlib::now_us()/1000) - startTime;
+					//hwlib::cout << "UpdateGameTimeControl: updating time from: " << gameTime;
+					gameTime = maxGameTime - ((hwlib::now_us()/1000) - startTime);
+					//hwlib::cout << " to: " << gameTime << '\n';
 					remainingTime.Set(gameTime);
 					if(gameTime <= 0){
+						//hwlib::cout << "UpdateGameTimeControl: Time's up!\n";
 						shootControl.GameOver();
 						processHitControl.GameOver();
 						speakerControl.MakeSound(GameOverSound);
