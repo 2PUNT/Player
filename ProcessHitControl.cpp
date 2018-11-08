@@ -49,8 +49,8 @@ void ProcessHitControl::main(){
 							//display?
 							
 							if(PlayerData.get_health() <= 0){
-								GameTimeControl.GameOver();
-								ShootControl.GameOver();
+								gameTimeControl.GameOver();
+								shootControl.GameOver();
 								//make sound?
 								//display game_over?
 								suspend(); //end reached

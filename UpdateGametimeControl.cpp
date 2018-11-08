@@ -23,6 +23,11 @@ void UpdateGameTimeControl::Start(){
 void UpdateGameTimeControl::GameOver(){
 	GameOverFlagTime.set();
 }
+
+void UpdateGameTimeControl::SetProcessHitControl(IRunGameTask& _processHitControl){
+	processHitControl = _processHitControl;
+}
+
 void UpdateGameTimeControl::main(){
 	rtos::event combinedEvents = GameOverFlagTime+GameTimeClock;
 	rtos::event lastEvent = GameOverFlagTime+GameTimeClock; // not a very clean way, but rtos::event does not have an empty contructor

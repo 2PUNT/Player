@@ -14,13 +14,13 @@ struct Record{
 
 class MessageChanneler{
 private:
-    Message &m;
-	RegisterGameParamsControl &RegGame;
-	ProcessHitControl &HitControl;
+    Message m;
+	RegisterGameParamsControl& RegGame;
+	ProcessHitControl& HitControl;
 public:
-    MessageChanneler():
-	RegGame(),
-	HitControl()	
+    MessageChanneler(RegisterGameParamsControl& _RegGame, ProcessHitControl& _HitControl):
+	RegGame(_RegGame),
+	HitControl(_HitControl)	
 	{};
     void SendMessage(Message m){
         if(m.senderID == 0x00){
@@ -38,7 +38,7 @@ private:
     int n = 0;
     int p;
     Message em;
-    MessageChanneler Channeler;
+    MessageChanneler& Channeler;
     EncodeDecodeMSG Encode;
     Record Records[10];
     rtos::channel<int,16> PauseQueue;
@@ -52,8 +52,9 @@ private:
     void main();
 public:
     void PauseDetected(int n);
-    MSGDecoderControl():
-        Channeler(),
+    MSGDecoderControl(const unsigned int priority, const char* taskName, MessageChanneler& _Channeler):
+        task(priority, taskName),
+		Channeler(_Channeler),
         Encode(),
         PauseQueue(this, "PauseQueue"),
         DecoderTimer(this, "DecoderTimer")
