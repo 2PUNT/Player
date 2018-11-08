@@ -74,17 +74,17 @@ public:
 	HitDatas(): usedSpace(0){}
 	
 	///@fn void HitDatas::Add(HitData hit)
-	///@brief Adds the HitData to the HitDatas array.
+	///@brief Adds the HitData to @c HitDatasArray.
 	///@param hit HitData object.
 	void Add(HitData hit);
 	
 	///@fn HitData* Get()
-	///@brief Returns the pointer to the HitDatas array.
+	///@brief Returns the pointer to @c HitDatasArray
 	///@return @c HitData*
 	HitData* Get();
 	
 	///@fn int GetLength()
-	///@brief Returns the length of the HitDatas array.
+	///@brief Returns the length of @c HitDatasArray
 	///@return @c usedSpace
 	int GetLength();
 };
@@ -93,8 +93,19 @@ class RemainingTime{
 private:
 	int RemainingTimeMS;
 public:
+	///@fn RemainingTime::RemainingTime()
+	///@brief The constructor for the RemainingTime class.
+	///@details This constructor creates a RemainingTime object.
 	RemainingTime(): RemainingTimeMS(0){}
+	
+	///@fn void RemainingTime::Set(int timeMS)
+	///@brief This function sets the remaining time.
+	///@param timeMS The remaining time.
 	void Set(int timeMS);
+	
+	///@fn int RemainingTime::Get()
+	///@brief Returns the remaining time.
+	///@return @c RemainingTimeMS
 	int Get();
 };
 
@@ -103,9 +114,24 @@ private:
 	ShotData ShotDataArray[100]; 
 	int usedSpace;
 public:
+	///@fn ShotDatas::ShotDatas()
+	///@brief The constructor for the ShotDatas class.
+	///@details This constructor creates a ShotDatas object.
 	ShotDatas(): usedSpace(0){}
+	
+	///@fn void ShotDatas::Add(ShotData shot)
+	///@brief Adds the shots to @c ShotDataArray
+	///@param shot The player's shots
 	void Add(ShotData shot);
+	
+	///@fn ShotData* ShotDatas::Get()
+	///@brief Returns the pointer to @c ShotDataArray
+	///@return @c ShotData*
 	ShotData* Get();
+	
+	///@fn int ShotDatas::GetLength()
+	///@brief Returns the length of @c ShotDataArray
+	///@return @c usedSpace
 	int GetLength();
 };
 
