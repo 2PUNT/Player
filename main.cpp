@@ -138,7 +138,7 @@ int main(void){
 
 	// <<<<<<<<<< IRReceiver >>>>>>>>>>//
 	hwlib::target::pin_in irReceiverPin = hwlib::target::pin_in(irReceiverPinID);
-	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiverPinr); // Geen priority?? Geen reference naar irReceiver?? Geen reference naar msgDecoderControl??
+	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiverPinr); // Geen priority?? Geen reference naar irReceiver?? Geen reference naar msgDecoderControl?? Een pin meegeven aan een Control object? dat is iets voor een Boundary...
 	// This is how it should be done:
 	/*
 	IrReceiver irReceiver = IrReceiver(irReceiverPinr);
