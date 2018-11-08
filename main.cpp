@@ -50,6 +50,15 @@ int main(void){
 	const unsigned int PriorityRegisterGameParamsControl;
 	const unsigned int PriorityMSGDecoderControl;
 
+	// <<<<<<<<<< Sounds >>>>>>>>>>//
+	note gameOverSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
+		note( 494,  125000 ),note( 466,  125000 ),note( 440,  125000 ),note( 466,  125000 ),note( 1396,  125000 ),note( 1242,  125000 ),note( 1174,  125000 ),note( 1242,  125000 ),note( 1396,  125000 ),note( -1,  -1 )};
+	note shootSound[] = {note( 1108,  125000 ),note( -1,  -1 )};
+	note hitSound[] = {note( 1108,  125000 ),note( -1,  -1 )};
+	GameOverSound = gameOverSound;
+	ShootSound = shootSound;
+	HitSound = hitSound;
+	
 	// <<<<<<<<<< Other Data >>>>>>>>>>//
 	uint16_t irTransmitterLow;
 	uint16_t irTransmitterHigh;
@@ -144,5 +153,7 @@ int main(void){
 	IrReceiver irReceiver = IrReceiver(irReceiverPinr);
 	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiver, msgDecoderControl);
 	*/
+	
+	rtos::run();
 	
 }

@@ -34,6 +34,6 @@ public:
 	void Start();
 	void GameOver();
 	void main();
-	void SetProcessHitControl(IRunGameTask& _processHitControl);
+	void SetProcessHitControl(IRunGameTask& _processHitControl); // added to work around a circular reference
 };
 #endif

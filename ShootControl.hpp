@@ -14,9 +14,9 @@
 class ShootControl: public rtos::task<>, public IRunGameTask {
 private:
 	rtos::flag StartFlagShoot;
-	//rtos::channel<int, 100> PressedButtonsQueue; // CHANGED!!!!
-	rtos::pool<int> PressedButtonPool;
-	rtos::flag PressedButtonFlag;
+	rtos::channel<int, 100> PressedButtonsQueue;
+	/* rtos::pool<int> PressedButtonPool;
+	rtos::flag PressedButtonFlag; */
 	rtos::channel<int, 5> ReleasedButtonsQueue;
 	rtos::flag GameOverFlagShoot;
 	rtos::timer ShootTimer;
@@ -40,7 +40,7 @@ private:
 	uint16_t shootMessage;
 public:
 	ShootControl(const unsigned int priority, const char* taskName, PlayerData& _playerData, ShotDatas& _shotDatas, RemainingTime& _remainingTime, EncodeDecodeMSG& _encodeDecoder, DisplayControl& _displayControl, SendIrMessageControl& _sendIrMessageControl, SpeakerControl& _speakerControl, int triggerID):
-		task(priority, taskName), StartFlagShoot(this, "StartFlagShoot"), PressedButtonPool("pressedButtonPool"), /* PressedButtonsQueue(this, "PressedButtonsQueue"), */ PressedButtonFlag(this, "pressedButtonFlag"), ReleasedButtonsQueue(this, "ReleasedButtonsQueue"), GameOverFlagShoot(this, "GameOverFlagShoot"),
+		task(priority, taskName), StartFlagShoot(this, "StartFlagShoot"), PressedButtonsQueue(this, "PressedButtonsQueue"), ReleasedButtonsQueue(this, "ReleasedButtonsQueue"), GameOverFlagShoot(this, "GameOverFlagShoot"),
 		ShootTimer(this, "ShootTimer"), playerData(_playerData), shotDatas(_shotDatas), remainingTime(_remainingTime),encodeDecoder(_encodeDecoder), displayControl(_displayControl), sendIrMessageControl(_sendIrMessageControl), speakerControl(_speakerControl), triggerButtonID(triggerID)
 		{currentState = WaitForStart;}
 	
