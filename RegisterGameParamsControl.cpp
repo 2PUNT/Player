@@ -57,7 +57,7 @@ void RegisterGameParamsControl::main(){
 				char Key = KeyPressedRegQueue.read();
 				if((Key > '0') && (Key < ':')){
 					S = STATE::WAITING_ON_COMMAND_OR_USER_INPUT;
-					playerData.SetID(Key);
+					playerData.SetID(Key-'0');
 					hwlib::cout<< "PlayerData = " << Key << "\n";
 					PlayerIDCheck = 1;
 				}
@@ -69,7 +69,7 @@ void RegisterGameParamsControl::main(){
 				char Key = KeyPressedRegQueue.read();
 				if((Key > '0') && (Key < ':')){
 					S = STATE::WAITING_ON_COMMAND_OR_USER_INPUT;
-					playerData.SetFirePower(Key);
+					playerData.SetFirePower(Key-'0');
 					hwlib::cout<< "Firepower = " << Key << "\n";
 					FirePowerCheck = 1;
 				}
