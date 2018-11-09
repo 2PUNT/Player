@@ -22,7 +22,6 @@ void ProcessHitControl::main(){
 				wait(StartFlagHit);
 				S = STATE::GAME_RUNNING;
 				MessagesReceivedRunQueue.clear();
-				hwlib::cout << "hitcontrol starting";
 			}
 			
 			case STATE::GAME_RUNNING:{
@@ -36,7 +35,6 @@ void ProcessHitControl::main(){
 								suspend(); //end reached
 							}else if(event == MessagesReceivedRunQueue){
 								SUB = SUBSTATE::WAITING_ON_TIMER;
-								hwlib::cout<<"hit received";
 							}
 							break;
 						}
@@ -48,16 +46,10 @@ void ProcessHitControl::main(){
 							hit.HitTimeMS = time.Get(); //get remainging game time
 							hitdatas.Add(hit); //add hit to hitdata
 							playerData.DecreaseHealth(msg.data); //decrease health
-							hwlib::cout<< msg.data << " " << msg.senderID << "\n";
-							//make sound?
-							//display?
 							
 							if(playerData.GetHealth() <= 0){
-								//gameTimeControl.GameOver();
-								//shootControl.GameOver();
-								//make sound?
-								//display game_over?
-								hwlib::cout << "game_over";
+								gameTimeControl.GameOver();
+								shootControl.GameOver();
 								suspend(); //end reached
 							}
 							

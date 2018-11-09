@@ -33,16 +33,14 @@ void RegisterGameParamsControl::main(){
 					auto msg = MessagesReceivedRegQueue.read();
 					if(msg.data != 0){
 						remainingTime.Set(msg.data * 60 * 1000);
-						hwlib::cout << "Time set";
 						TimeCheck = 1;
 						break;
 					}else if((msg.data == 0) && TimeCheck && PlayerIDCheck && FirePowerCheck){
 						startTimer.set(5'000'000);
-						hwlib::cout << "waiting on start" << hwlib::endl;
 						wait(startTimer);
 						processHitControl.Start();
-						//gameTimeControl.start();
-						//shootControl.start();
+						gameTimeControl.start();
+						shootControl.start();
 						hwlib::cout<< "start" << hwlib::endl;
 						suspend();
 					}else{
@@ -58,7 +56,6 @@ void RegisterGameParamsControl::main(){
 				if((Key > '0') && (Key < ':')){
 					S = STATE::WAITING_ON_COMMAND_OR_USER_INPUT;
 					playerData.SetID(Key);
-					hwlib::cout<< "PlayerData = " << Key << "\n";
 					PlayerIDCheck = 1;
 				}
 				break;
@@ -70,7 +67,6 @@ void RegisterGameParamsControl::main(){
 				if((Key > '0') && (Key < ':')){
 					S = STATE::WAITING_ON_COMMAND_OR_USER_INPUT;
 					playerData.SetFirePower(Key);
-					hwlib::cout<< "Firepower = " << Key << "\n";
 					FirePowerCheck = 1;
 				}
 				break;
