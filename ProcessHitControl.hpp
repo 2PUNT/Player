@@ -38,10 +38,11 @@ public:
 	///@param priority Priority of the task.
 	///@param name Name of the task.
 	ProcessHitControl(const unsigned int priority, const char* name, RemainingTime& time, HitDatas& hitdatas, PlayerData& playerData, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl):
-		task(priority, name), gameTimeControl(_gameTimeControl), shootControl(_shootControl),
-		MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
+		task(priority, name), MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
 		StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),
-		ProcessHitTimer(this, "ProcessHitTimer"), time(time), hitdatas(hitdatas), playerData(playerData){};
+		ProcessHitTimer(this, "ProcessHitTimer"),
+		gameTimeControl(_gameTimeControl), shootControl(_shootControl),
+		time(time), hitdatas(hitdatas), playerData(playerData){};
 
 	///@fn void ProcessHitControl::Start()
 	///@brief Starts this task.

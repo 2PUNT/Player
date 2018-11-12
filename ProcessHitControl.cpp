@@ -40,6 +40,7 @@ void ProcessHitControl::main(){
 						}
 						
 						case SUBSTATE::WAITING_ON_TIMER:{
+							// TODO: Make a hit sound!!
 							Message msg = MessagesReceivedRunQueue.read();
 							ProcessHitTimer.set(5'000'000);
 							hit.ShooterID = msg.senderID;

@@ -39,8 +39,8 @@ void RegisterGameParamsControl::main(){
 						startTimer.set(5'000'000);
 						wait(startTimer);
 						processHitControl.Start();
-						gameTimeControl.start();
-						shootControl.start();
+						gameTimeControl.Start();
+						shootControl.Start();
 						hwlib::cout<< "start" << hwlib::endl;
 						suspend();
 					}else{

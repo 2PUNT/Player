@@ -35,8 +35,9 @@ int main(void){
 	hwlib::target::pins playerDisplaySDAPinID =  hwlib::target::pins::a0;
 	hwlib::target::pins digitLedDisplayCLKPinID =  hwlib::target::pins::a0;
 	hwlib::target::pins digitLedDisplayDIOPinID =  hwlib::target::pins::a0;
-	hwlib::target::d2_36kHz IrTransmitterLED;
+	hwlib::target::d2_36kHz IrTransmitterLED = hwlib::target::d2_36kHz();
 	hwlib::target::pins triggerButtonPinID=  hwlib::target::pins::a0;
+	hwlib::target::pins speakerPinID = hwlib::target::pins::a0;
 
 
 	// Keyboard:
@@ -51,15 +52,16 @@ int main(void){
 
 
 	// <<<<<<<<<< All priorities >>>>>>>>>>//
-	// const unsigned int PriorityPauseDetectionControl <<< Not used, pauseDetectionControl has no priority?
+	const unsigned int PriorityPauseDetectionControl	= 1;
+	const unsigned int Prioritykeyboard					= 2;
 	const unsigned int PrioritySpeakerControl 			= 9;
-	const unsigned int PrioritySendIrMessageControl = 4;
-	const unsigned int PriorityTriggerButton				= 3;
-	const unsigned int PriorityShootControl 				= 5;
-	const unsigned int PriorityUpdateGameTimeControl= 11;
+	const unsigned int PrioritySendIrMessageControl 	= 4;
+	const unsigned int PriorityTriggerButton			= 3;
+	const unsigned int PriorityShootControl 			= 5;
+	const unsigned int PriorityUpdateGameTimeControl	= 11;
 	const unsigned int PriorityProcessHitControl		= 10;
-	const unsigned int PriorityRegisterGameParamsControl = 7;
-	const unsigned int PriorityMSGDecoderControl    = 6;
+	const unsigned int PriorityRegisterGameParamsControl= 7;
+	const unsigned int PriorityMSGDecoderControl    	= 6;
 
 	// <<<<<<<<<< Sounds >>>>>>>>>>//
 	note gameOverSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
@@ -119,7 +121,7 @@ int main(void){
 	DigitLedDisplay digitLedDisplay = DigitLedDisplay(digitLedDisplayCLK,digitLedDisplayDIO);
 
 	// <<<<<<<<<< Speaker >>>>>>>>>>//
-	auto speakerPin = target::pin_out( target::pins::d7 );
+	hwlib::target::pin_out speakerPin = hwlib::target::pin_out( speakerPinID );
 	Speaker speaker = Speaker(speakerPin);
 	SpeakerControl speakerControl = SpeakerControl(PrioritySpeakerControl, "speakerControl", speaker);
 
@@ -155,7 +157,7 @@ int main(void){
 	hwlib::matrix_of_switches matrix   = hwlib::matrix_of_switches( out_port, in_port );
 	hwlib::keypad< 16 > keypad   = hwlib::keypad< 16 >( matrix, "123A456B789C*0#D" );
 
-	Keyboard_4x4<1> keyboard = Keyboard_4x4<1>(keypad, 0, "TheKeyBoard");
+	Keyboard_4x4<1> keyboard = Keyboard_4x4<1>(keypad, Prioritykeyboard, "TheKeyBoard");
 
 	// <<<<<<<<<< IRunGameTasks >>>>>>>>>>//
 	ShootControl shootControl = ShootControl(PriorityShootControl, "shootControl", playerData, shotDatas,
@@ -189,7 +191,7 @@ int main(void){
 	// <<<<<<<<<< IRReceiver >>>>>>>>>>//
 	hwlib::target::pin_in irReceiverPin = hwlib::target::pin_in(irReceiverPinID);
 	IrReceiver irReceiver = IrReceiver(irReceiverPin);
-	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(irReceiver, msgDecoderControl);
+	PauseDetectionControl pauseDetectionControl = PauseDetectionControl(PriorityPauseDetectionControl, "pauseDetectionControl", irReceiver, msgDecoderControl);
 
 	rtos::run();
 

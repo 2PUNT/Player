@@ -10,6 +10,7 @@
 #include "EncodeDecodeMSG.hpp"
 #include "SendIrMessageControl.hpp"
 #include "DisplayControl.hpp"
+#include "IButtonListener.hpp"
 
 
 class ShootControl: public rtos::task<>, public IRunGameTask, public IButtonListener {
