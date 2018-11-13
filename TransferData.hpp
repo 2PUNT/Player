@@ -4,6 +4,38 @@
 #include "rtos.hpp"
 #include "ADTs.hpp"
 
+class TransferDataControl: public rtos::task<>{
+	private:
+		PlayerData & pdata;
+		HitDatas & hdata;
+		ShotDatas & sdata;
+		PersonalComputer & PC;
+
+	public:
+		//! Initialized with all the entity objects and the pc proxy
+		TransferDataControl(
+			PlayerData & pdata,
+			HitDatas & hdata,
+			ShotDatas & sdata,
+			PersonalComputer & PC):
+			pdata(pdata),
+			hdata(hdata),
+			sdata(sdata),
+			PC(PC){}
+
+	//! Gathers all the entity data and sends it to the PC
+	void StartTransfer(){
+		PlayerDataCollection playerData;
+		playerData.PlayerID        = pdata.GetID();
+		playerData.PlayerFirePower = pdata.GetFirePower();
+		playerData.PlayerHealth    = pdata.GetHealth();
+		playerData.HitDataArray    = hdata.Get();
+		playerData.HitDataLength   = hdata.GetLength();
+		playerData.ShotDataArray   = sdata.Get();
+		playerData.ShotDataLength  = sdata.GetLength();
+		PC.RegisterData(playerData);
+	}
+};
 
 class PersonalComputer{
 	public:
@@ -54,41 +86,6 @@ class PersonalComputer{
 			hwlib::cout << "tot slot was de eindstand van je health: " << PlayerHealth <<  hwlib::endl;
 		}
 
-};
-
-
-
-class TransferDataControl{
-	private:
-		PlayerData & pdata;
-		HitDatas & hdata;
-		ShotDatas & sdata;
-		PersonalComputer & PC;
-
-	public:
-		//! Initialized with all the entity objects and the pc proxy
-		TransferDataControl(
-			PlayerData & pdata,
-			HitDatas & hdata,
-			ShotDatas & sdata,
-			PersonalComputer & PC):
-			pdata(pdata),
-			hdata(hdata),
-			sdata(sdata),
-			PC(PC){}
-
-	//! Gathers all the entity data and sends it to the PC
-	void StartTransfer(){
-		PlayerDataCollection playerData;
-		playerData.PlayerID        = pdata.GetID();
-		playerData.PlayerFirePower = pdata.GetFirePower();
-		playerData.PlayerHealth    = pdata.GetHealth();
-		playerData.HitDataArray    = hdata.Get();
-		playerData.HitDataLength   = hdata.GetLength();
-		playerData.ShotDataArray   = sdata.Get();
-		playerData.ShotDataLength  = sdata.GetLength();
-		PC.RegisterData(playerData);
-	}
 };
 
 #endif
