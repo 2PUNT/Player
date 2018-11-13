@@ -190,7 +190,7 @@ int main(void){
 	// <<<<<<<<<< MSGDecoderControl >>>>>>>>>>//
 	MessageChanneler messageChanneler = MessageChanneler(registerGameParamsControl, processHitControl);
 
-	MSGDecoderControl msgDecoderControl = MSGDecoderControl(PriorityMSGDecoderControl, "msgDecoderControl", messageChanneler);
+	MSGDecoderControl msgDecoderControl = MSGDecoderControl(PriorityMSGDecoderControl, "msgDecoderControl", messageChanneler, encodeDecodeMSG);
 
 	// <<<<<<<<<< IRReceiver >>>>>>>>>>//
 	hwlib::target::pin_in irReceiverPin = hwlib::target::pin_in(irReceiverPinID);

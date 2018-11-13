@@ -39,7 +39,7 @@ private:
     int p;
     Message em;
     MessageChanneler& Channeler;
-    EncodeDecodeMSG Encode;
+    EncodeDecodeMSG & Encode;
     Record Records[10];
     rtos::channel<int,16> PauseQueue;
     rtos::timer DecoderTimer;
@@ -52,10 +52,10 @@ private:
     void main();
 public:
     void PauseDetected(int n);
-    MSGDecoderControl(const unsigned int priority, const char* taskName, MessageChanneler& _Channeler):
+    MSGDecoderControl(const unsigned int priority, const char* taskName, MessageChanneler& _Channeler, EncodeDecodeMSG & Encode):
         task(priority, taskName),
 		Channeler(_Channeler),
-        Encode(),
+        Encode(Encode),
         PauseQueue(this, "PauseQueue"),
         DecoderTimer(this, "DecoderTimer")
     {};

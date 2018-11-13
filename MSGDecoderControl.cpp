@@ -48,7 +48,7 @@ void MSGDecoderControl::main(){
             m+=1;
             n = 15;
             if(check(m)){
-              auto em =  coder.DecodeMessage(m);
+              auto em =  Encode.DecodeMessage(m);
               msg.SendMessage(em);
             }
             m=0;
