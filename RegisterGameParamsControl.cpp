@@ -41,7 +41,7 @@ void RegisterGameParamsControl::main(){
 						processHitControl.Start();
 						gameTimeControl.Start();
 						shootControl.Start();
-						hwlib::cout<< "start" << hwlib::endl;
+						//hwlib::cout<< "start" << hwlib::endl;
 						suspend();
 					}else{
 						break;

@@ -7,6 +7,7 @@
 #include "UpdateGameTimeControl.hpp"
 #include "SpeakerControl.hpp"
 
+//extern note* GameOverSound;
 
 int UpdateGameTimeControl::msToTimeSeconds(int timeMS){
 	timeMS/=1000;

@@ -24,7 +24,18 @@
 
 #include "RegisterGameParamsControl.hpp"
 
+/* extern note* GameOverSound;
+extern note* ShootSound;
+extern note* HitSound; */
+
+note* GameOverSound;
+note* ShootSound;
+note* HitSound;
+
 int main(void){
+	
+	//
+	
 	// kill the watchdog
 	WDT->WDT_MR = WDT_MR_WDDIS;
 	 namespace target = hwlib::target;
@@ -160,8 +171,7 @@ int main(void){
 	Keyboard_4x4<1> keyboard = Keyboard_4x4<1>(keypad, Prioritykeyboard, "TheKeyBoard");
 
 	// <<<<<<<<<< IRunGameTasks >>>>>>>>>>//
-	ShootControl shootControl = ShootControl(PriorityShootControl, "shootControl", playerData, shotDatas,
-		remainingTime, encodeDecodeMSG, displayControl, sendIrMessageControl, speakerControl, triggerButtonID);
+	ShootControl shootControl = ShootControl(PriorityShootControl, "shootControl", playerData, shotDatas, remainingTime, encodeDecodeMSG, displayControl, sendIrMessageControl, speakerControl, triggerButtonID);
 
 	IButtonListener* shootControl_ButtonListener = &shootControl;
 	triggerButton.SetButtonListener(shootControl_ButtonListener); // add shootControl to the listeners of the triggerButton.
@@ -172,8 +182,6 @@ int main(void){
 	ProcessHitControl processHitControl = ProcessHitControl(PriorityProcessHitControl, "processHitControl", remainingTime, hitDatas, playerData, updateGameTimeControl, shootControl);
 
 	updateGameTimeControl.SetProcessHitControl(processHitControl); // replace the dummy with the actual processHitControl and the circular reference is fixed.
-
-
 
 	// <<<<<<<<<< RegisterGameParamsControl >>>>>>>>>>//
 	RegisterGameParamsControl registerGameParamsControl = RegisterGameParamsControl(PriorityRegisterGameParamsControl, "registerGameParamsControl", remainingTime, processHitControl,

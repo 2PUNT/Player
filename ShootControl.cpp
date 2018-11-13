@@ -9,16 +9,16 @@
 #include "Dummies.cpp"
 
 void ShootControl::Start(){
-	hwlib::cout << "ShootControl: Start() called\n";
+	//hwlib::cout << "ShootControl: Start() called\n";
 	StartFlagShoot.set();
 }
 void ShootControl::GameOver(){
 	GameOverFlagShoot.set();
 }
 void ShootControl::ButtonPressed(int ButtonID){
-	hwlib::cout << "ShootControl: Receiving ButtonID\n";
+	//hwlib::cout << "ShootControl: Receiving ButtonID\n";
 	PressedButtonsQueue.write(ButtonID);
-	hwlib::cout << "ShootControl: ButtonID Received\n";
+	//hwlib::cout << "ShootControl: ButtonID Received\n";
 }
 void ShootControl::ButtonReleased(int ButtonID){
 	//ReleasedButtonsQueue.write(ButtonID);
@@ -38,7 +38,7 @@ void ShootControl::main(){
 				break;
 			}
 			case Idle:{
-				hwlib::cout << "ShootControl: Now Idle\n";
+				//hwlib::cout << "ShootControl: Now Idle\n";
 				lastEvent = wait(GameOverFlagShoot + PressedButtonsQueue);
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == PressedButtonsQueue){
@@ -47,7 +47,7 @@ void ShootControl::main(){
 					shotDatas.Add(ShotData(remainingTime.Get()));
 					displayControl.DisplayString("Reloading", StringType::RELOAD);
 					sendIrMessageControl.sendMessage(shootMessage);
-					hwlib::cout << "ShootControl: Making sound\n";
+					//hwlib::cout << "ShootControl: Making sound\n";
 					speakerControl.MakeSound(ShootSound);
 					ShootTimer.set(reloadTime);
 					currentState = Reload;
@@ -55,9 +55,9 @@ void ShootControl::main(){
 				break;
 			}
 			case Reload:{
-				hwlib::cout << "ShootControl: Reloading\n";
+				//hwlib::cout << "ShootControl: Reloading\n";
 				lastEvent = wait(GameOverFlagShoot + ShootTimer);
-				hwlib::cout << "ShootControl: Reloading Done\n";
+				//hwlib::cout << "ShootControl: Reloading Done\n";
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == ShootTimer){
 					PressedButtonsQueue.clear();
