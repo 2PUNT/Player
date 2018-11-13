@@ -49,7 +49,7 @@ void MSGDecoderControl::main(){
             n = 15;
             if(check(m)){
               auto em =  Encode.DecodeMessage(m);
-              msg.SendMessage(em);
+              Channeler.SendMessage(em);
             }
             m=0;
           }else{
