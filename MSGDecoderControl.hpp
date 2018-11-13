@@ -3,9 +3,6 @@
 
 #include "rtos.hpp"
 #include "EncodeDecodeMSG.hpp"
-#include "ADTs.hpp"
-#include "RegisterGameParamsControl.hpp"
-#include "ProcessHitControl.hpp"
 
 struct Record{
     uint16_t message;
@@ -14,20 +11,10 @@ struct Record{
 
 class MessageChanneler{
 private:
-    Message m;
-	RegisterGameParamsControl& RegGame;
-	ProcessHitControl& HitControl;
 public:
-    MessageChanneler(RegisterGameParamsControl& _RegGame, ProcessHitControl& _HitControl):
-	RegGame(_RegGame),
-	HitControl(_HitControl)	
-	{};
+    MessageChanneler(){};
     void SendMessage(Message m){
-        if(m.senderID == 0x00){
-            RegGame.CommandReceived(m);
-        }else{
-            HitControl.HitReceived(m);
-        }
+      //hwlib::cout << m.data << hwlib::endl;
     }
 };
 
@@ -37,25 +24,20 @@ private:
     uint16_t mKnown;
     int n = 0;
     int p;
-    Message em;
-    MessageChanneler& Channeler;
-    EncodeDecodeMSG Encode;
-    Record Records[10];
+    EncodeDecodeMSG & coder;
+    MessageChanneler & msg;
     rtos::channel<int,16> PauseQueue;
     rtos::timer DecoderTimer;
-    enum class state_t {WAIT_FOR_PAUSE};
-    state_t STATE = state_t::WAIT_FOR_PAUSE;
-    
     bool messageKnown(uint16_t m);
     bool check(uint16_t m);
     void knownMessage(uint16_t m);
     void main();
 public:
     void PauseDetected(int n);
-    MSGDecoderControl(const unsigned int priority, const char* taskName, MessageChanneler& _Channeler):
+    MSGDecoderControl(const unsigned int priority, const char* taskName, MessageChanneler & msg, EncodeDecodeMSG & coder):
         task(priority, taskName),
-		Channeler(_Channeler),
-        Encode(),
+        coder(coder),
+        msg(msg),
         PauseQueue(this, "PauseQueue"),
         DecoderTimer(this, "DecoderTimer")
     {};

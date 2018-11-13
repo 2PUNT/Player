@@ -33,9 +33,9 @@ note* ShootSound;
 note* HitSound;
 
 int main(void){
-	
+
 	//
-	
+
 	// kill the watchdog
 	WDT->WDT_MR = WDT_MR_WDDIS;
 	 namespace target = hwlib::target;
@@ -119,10 +119,6 @@ int main(void){
 
 	auto f2 = hwlib::font_default_8x8();
 	auto d2 = hwlib::window_ostream( w2, f2 );
-
-	auto ose = hwlib::window_part(
-		playerDisplay, hwlib::location( 0, 0 ),
-	hwlib::location( 128, 32));
 
 	DisplayControl displayControl = DisplayControl(playerDisplay,w1, w2, d1, d2, 100);
 
