@@ -41,15 +41,14 @@ int main(void){
 	 namespace target = hwlib::target;
 	// <<<<<<<<<< Initialization of Data >>>>>>>>>>//
 	// <<<<<<<<<< All pins used >>>>>>>>>>//
-	hwlib::target::pins irReceiverPinID =  hwlib::target::pins::a0;
-	hwlib::target::pins playerDisplaySCLPinID =  hwlib::target::pins::a0;
-	hwlib::target::pins playerDisplaySDAPinID =  hwlib::target::pins::a0;
-	hwlib::target::pins digitLedDisplayCLKPinID =  hwlib::target::pins::a0;
-	hwlib::target::pins digitLedDisplayDIOPinID =  hwlib::target::pins::a0;
-	hwlib::target::d2_36kHz IrTransmitterLED = hwlib::target::d2_36kHz();
-	hwlib::target::pins triggerButtonPinID=  hwlib::target::pins::a0;
-	hwlib::target::pins speakerPinID = hwlib::target::pins::a0;
-
+	hwlib::target::pins irReceiverPinID 		=  	hwlib::target::pins::d10;
+	hwlib::target::pins playerDisplaySCLPinID 	=  	hwlib::target::pins::scl;
+	hwlib::target::pins playerDisplaySDAPinID 	=  	hwlib::target::pins::sda;
+	hwlib::target::pins digitLedDisplayCLKPinID =  	hwlib::target::pins::d5;
+	hwlib::target::pins digitLedDisplayDIOPinID =  	hwlib::target::pins::d4;
+	hwlib::target::d2_36kHz IrTransmitterLED 	= 	hwlib::target::d2_36kHz();
+	hwlib::target::pins triggerButtonPinID		=  	hwlib::target::pins::d35;
+	hwlib::target::pins speakerPinID 			=	hwlib::target::pins::d39;
 
 	// Keyboard:
 	hwlib::target::pins out0ID =   hwlib::target::pins::a0 ;
