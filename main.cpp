@@ -34,21 +34,20 @@ note* HitSound;
 
 int main(void){
 
-	//
-
 	// kill the watchdog
 	WDT->WDT_MR = WDT_MR_WDDIS;
+	hwlib::wait_ms(100);
 	 namespace target = hwlib::target;
 	// <<<<<<<<<< Initialization of Data >>>>>>>>>>//
 	// <<<<<<<<<< All pins used >>>>>>>>>>//
 	hwlib::target::pins irReceiverPinID 		=  	hwlib::target::pins::d10;
 	hwlib::target::pins playerDisplaySCLPinID 	=  	hwlib::target::pins::scl;
 	hwlib::target::pins playerDisplaySDAPinID 	=  	hwlib::target::pins::sda;
-	hwlib::target::pins digitLedDisplayCLKPinID =  	hwlib::target::pins::d5;
-	hwlib::target::pins digitLedDisplayDIOPinID =  	hwlib::target::pins::d4;
+	hwlib::target::pins digitLedDisplayCLKPinID =  	hwlib::target::pins::d24;
+	hwlib::target::pins digitLedDisplayDIOPinID =  	hwlib::target::pins::d22;
 	hwlib::target::d2_36kHz IrTransmitterLED 	= 	hwlib::target::d2_36kHz();
-	hwlib::target::pins triggerButtonPinID		=  	hwlib::target::pins::d35;
-	hwlib::target::pins speakerPinID 			=	hwlib::target::pins::d39;
+	hwlib::target::pins triggerButtonPinID		=  	hwlib::target::pins::d2;
+	hwlib::target::pins speakerPinID 			=	hwlib::target::pins::d45;
 
 	// Keyboard:
 	hwlib::target::pins out0ID =   hwlib::target::pins::a0 ;
@@ -75,12 +74,14 @@ int main(void){
 
 	// <<<<<<<<<< Sounds >>>>>>>>>>//
 	note gameOverSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
-		note( 494,  125000 ),note( 466,  125000 ),note( 440,  125000 ),note( 466,  125000 ),note( 1396,  125000 ),note( 1242,  125000 ),note( 1174,  125000 ),note( 1242,  125000 ),note( 1396,  125000 ),note( -1,  -1 )};
-	note shootSound[] = {note( 1108,  125000 ),note( -1,  -1 )};
-	note hitSound[] = {note( 1108,  125000 ),note( -1,  -1 )};
+		note( -1,  -1 )};
+	//note shootSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
+	//	note( -1,  -1 )};
+	//note hitSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
+	//	note( -1,  -1 )};
 	GameOverSound = gameOverSound;
-	ShootSound = shootSound;
-	HitSound = hitSound;
+	ShootSound = gameOverSound;
+	HitSound = gameOverSound;
 
 	// <<<<<<<<<< Other Data >>>>>>>>>>//
 	int defaultPlayerHealth = 100;
@@ -125,6 +126,9 @@ int main(void){
 	hwlib::target::pin_in_out digitLedDisplayCLK = hwlib::target::pin_in_out(digitLedDisplayCLKPinID);
 	hwlib::target::pin_in_out digitLedDisplayDIO = hwlib::target::pin_in_out(digitLedDisplayDIOPinID);
 	DigitLedDisplay digitLedDisplay = DigitLedDisplay(digitLedDisplayCLK,digitLedDisplayDIO);
+	
+	digitLedDisplay.ChangeBrightness(7);
+	digitLedDisplay.Display(0,0);
 
 	// <<<<<<<<<< Speaker >>>>>>>>>>//
 	hwlib::target::pin_out speakerPin = hwlib::target::pin_out( speakerPinID );
@@ -173,14 +177,14 @@ int main(void){
 
 
 	IRunGameTaskDummy irunGameTaskDummy; // a tmp Dummy to fix a small circular reference we have....
-	UpdateGameTimeControl updateGameTimeControl = UpdateGameTimeControl(PriorityUpdateGameTimeControl, "updateGameTimeControl", remainingTime, digitLedDisplay, shootControl, irunGameTaskDummy, speakerControl); // give a dummy for now
+	UpdateGameTimeControl updateGameTimeControl = UpdateGameTimeControl(PriorityUpdateGameTimeControl, "updateGameTimeControl", remainingTime, digitLedDisplay, shootControl, irunGameTaskDummy, speakerControl, tdc); // give a dummy for now
 	ProcessHitControl processHitControl = ProcessHitControl(PriorityProcessHitControl, "processHitControl", remainingTime, hitDatas, playerData, updateGameTimeControl, shootControl);
 
 	updateGameTimeControl.SetProcessHitControl(processHitControl); // replace the dummy with the actual processHitControl and the circular reference is fixed.
 
 	// <<<<<<<<<< RegisterGameParamsControl >>>>>>>>>>//
 	RegisterGameParamsControl registerGameParamsControl = RegisterGameParamsControl(PriorityRegisterGameParamsControl, "registerGameParamsControl", remainingTime, processHitControl,
-		updateGameTimeControl, shootControl, playerData);
+		updateGameTimeControl, shootControl, playerData, displayControl);
 
 
 	IKeyboardListener* registerGameParamsControl_KeyboardListener = &registerGameParamsControl;

@@ -45,12 +45,14 @@ void MSGDecoderControl::main(){
           m += (bit << (n));
           n--;
           if(n == 0){
+			hwlib::cout << "MSGDecoderControl: Message received, checking...\n";
             m+=1;
             n = 15;
             if(check(m)){
+				hwlib::cout << "MSGDecoderControl: Check returned true\n";
               auto em =  Encode.DecodeMessage(m);
               Channeler.SendMessage(em);
-            }
+            }else hwlib::cout << "MSGDecoderControl: Check returned false!\n";
             m=0;
           }else{
             DecoderTimer.set(2500);

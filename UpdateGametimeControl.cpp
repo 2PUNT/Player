@@ -36,7 +36,7 @@ void UpdateGameTimeControl::main(){
 		switch(CurrentState){
 			case WaitForStart:{
 				wait(StartFlagTime);
-				//hwlib::cout << "UpdateGameTimeControl: Start() called\n";
+				hwlib::cout << "UpdateGameTimeControl: Start() called\n";
 				maxGameTime = remainingTime.Get();
 				startTime = hwlib::now_us()/1000;
 				//hwlib::cout << "gameTime: " << gameTime << " startTime: " << startTime << '\n';
@@ -46,20 +46,23 @@ void UpdateGameTimeControl::main(){
 			case Idle:{
 				//hwlib::cout << "UpdateGameTimeControl: now Idle\n";
 				digitLedDisplay.Display(msToTimeMinutes(gameTime), msToTimeSeconds(gameTime));
+				//hwlib::cout << "UpdateGameTimeControl: current time: " << msToTimeMinutes(gameTime) << ':' << msToTimeSeconds(gameTime) << '\n';
 				lastEvent = wait(combinedEvents);
 				if(lastEvent == GameTimeClock){
-					//hwlib::cout << "UpdateGameTimeControl: updating time from: " << gameTime;
+					//hwlib::cout << "UpdateGameTimeControl: updating time from: " << msToTimeMinutes(gameTime) << ':' << msToTimeSeconds(gameTime);
 					gameTime = maxGameTime - ((hwlib::now_us()/1000) - startTime);
-					//hwlib::cout << " to: " << gameTime << '\n';
+					//hwlib::cout << " to: " << msToTimeMinutes(gameTime) << ':' << msToTimeSeconds(gameTime) << '\n';
 					remainingTime.Set(gameTime);
 					if(gameTime <= 0){
-						//hwlib::cout << "UpdateGameTimeControl: Time's up!\n";
+						hwlib::cout << "UpdateGameTimeControl: Time's up!\n";
 						shootControl.GameOver();
 						processHitControl.GameOver();
 						speakerControl.MakeSound(GameOverSound);
 						suspend(); // end the task!
 					}
 				}else if(lastEvent == GameOverFlagTime){
+					hwlib::wait_ms(500); // TODO: this is not acceptable, we have to use a timer.
+					transferDataControl.StartTransfer();
 					suspend(); // end the task!
 				}
 				break;

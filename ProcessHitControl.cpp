@@ -1,6 +1,7 @@
 #include "ProcessHitControl.hpp"
 
 void ProcessHitControl::Start(){
+	hwlib::cout << "ProcessHitControl: Start() called\n";
 	StartFlagHit.set();
 }
 
@@ -44,6 +45,7 @@ void ProcessHitControl::main(){
 							Message msg = MessagesReceivedRunQueue.read();
 							ProcessHitTimer.set(5'000'000);
 							hit.ShooterID = msg.senderID;
+							hwlib::cout << "ProcessHitControl: hit received, sender: " << msg.senderID << '\n';
 							hit.HitTimeMS = time.Get(); //get remainging game time
 							hitdatas.Add(hit); //add hit to hitdata
 							playerData.DecreaseHealth(msg.data); //decrease health

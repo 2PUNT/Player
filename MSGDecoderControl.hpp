@@ -1,6 +1,7 @@
 #ifndef MSG_DECODER_CONTROL_HPP
 #define MSG_DECODER_CONTROL_HPP
 
+#include "hwlib.hpp"
 #include "rtos.hpp"
 #include "EncodeDecodeMSG.hpp"
 #include "ADTs.hpp"
@@ -23,10 +24,13 @@ public:
 	HitControl(_HitControl)
 	{};
     void SendMessage(Message m){
+		hwlib::cout << "MessageChanneler: Message received\n";
         if(m.senderID == 0x00){
             RegGame.CommandReceived(m);
+			hwlib::cout << "MessageChanneler: CommandReceived\n";
         }else{
             HitControl.HitReceived(m);
+			hwlib::cout << "MessageChanneler: HitReceived\n";
         }
     }
 };

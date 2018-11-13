@@ -39,6 +39,7 @@ private:
 	UpdateGameTimeControl& gameTimeControl;
 	ShootControl& shootControl;
 	PlayerData& playerData;
+	DisplayControl& displayControl;
 	//IRunGameTask& RunGame; What was this for?
 
 	void main();
@@ -48,9 +49,9 @@ public:
 	///details This constructor creates a RegisterGameParamsControl object.
 	///@param priority Priority of the task.
 	///@param name Name of the task.
-	RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, PlayerData& _playerData):
+	RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, PlayerData& _playerData, DisplayControl& _displayControl):
 		 task(priority, name), startTimer(this, "startTimer"), KeyPressedRegQueue(this, "KeyPressedRegQueue"), MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"),
-		 processHitControl(_processHitControl), remainingTime(_remainingTime), gameTimeControl(_gameTimeControl), shootControl(_shootControl), playerData(_playerData){};
+		 processHitControl(_processHitControl), remainingTime(_remainingTime), gameTimeControl(_gameTimeControl), shootControl(_shootControl), playerData(_playerData), displayControl(_displayControl){};
 
 	///@fn void RegisterGameParamsControl::CommandReceived(Message Command)
 	///@brief Receive command Message.

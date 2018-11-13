@@ -35,6 +35,8 @@ void ShootControl::main(){
 				reloadTime = playerData.GetFirePower() * 1000000;
 				shootMessage = encodeDecoder.EncodeMessage(Message(playerData.GetID(), playerData.GetFirePower())); // message composed of player's ID and Firepower.
 				currentState = Idle;
+				PressedButtonsQueue.clear();
+				//displayControl.Clear(StringType::RELOAD);
 				break;
 			}
 			case Idle:{
@@ -44,12 +46,13 @@ void ShootControl::main(){
 				else if(lastEvent == PressedButtonsQueue){
 					lastPressedButtonID = PressedButtonsQueue.read();
 					if(lastPressedButtonID != triggerButtonID) break; // do nothing
-					shotDatas.Add(ShotData(remainingTime.Get()));
-					displayControl.DisplayString("Reloading", StringType::RELOAD);
-					sendIrMessageControl.sendMessage(shootMessage);
-					//hwlib::cout << "ShootControl: Making sound\n";
-					speakerControl.MakeSound(ShootSound);
 					ShootTimer.set(reloadTime);
+					shotDatas.Add(ShotData(remainingTime.Get()));
+					sendIrMessageControl.sendMessage(shootMessage);
+					//hwlib::cout << "S\n";
+					speakerControl.MakeSound(ShootSound);
+					//displayControl.DisplayString("R", StringType::RELOAD);
+					//hwlib::cout << "ShootControl: Making sound\n";
 					currentState = Reload;
 				}
 				break;
@@ -61,7 +64,7 @@ void ShootControl::main(){
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == ShootTimer){
 					PressedButtonsQueue.clear();
-					displayControl.Clear(StringType::RELOAD);
+					//displayControl.Clear(StringType::RELOAD);
 					currentState = Idle;
 				}
 				break;
@@ -69,44 +72,3 @@ void ShootControl::main(){
 		}
 	}
 }
-/* 
-
-class ShootControl: public rtos::task<>, public IRunGameTask{
-private:
-	rtos::flag StartFlagShoot;
-	rtos::channel<int, 5> PressedButtonsQueue;
-	rtos::channel<int, 5> ReleasedButtonsQueue;
-	rtos::flag GameOverFlagShoot;
-	rtos::timer ShootTimer;
-	
-	enum ShootControlStates = { WaitForStart, Idle, Reload };
-	ShootControlStates currentState;
-	
-	PlayerData& playerData;
-	ShotDatas& shotDatas;
-	RemainingTime& remainingTime;
-	EncodeDecodeMSG& encodeDecoder;
-	DisplayControl& displayControl;
-	SendIrMessageControl& sendIrMessageControl;
-	SpeakerControl& speakerControl;
-	
-	uint8_t triggerButtonID;
-	
-	int lastPressedButtonID;
-	int lastReleasedButtonID;
-	int reloadTime; // time to reload in ms
-	uint16_t shootMessage;
-public:
-	ShootControl(const unsigned int priority, const char* taskName, PlayerData& _playerData, EncodeDecodeMSG& _encodeDecoder, DisplayControl& _displayControl, SendIrMessageControl& _sendIrMessageControl, SpeakerControl& _speakerControl, uint8_t _triggerButtonID):
-		task(priority, taskName), StartFlagShoot(this, "StartFlagShoot"), PressedButtonsQueue(this, "PressedButtonsQueue"), ReleasedButtonsQueue(this, "ReleasedButtonsQueue"), GameOverFlagShoot(this, "GameOverFlagShoot"),
-		ShootTimer(this, "ShootTimer"), playerData(_playerData), encodeDecoder(_encodeDecoder), displayControl(_displayControl), sendIrMessageControl(_sendIrMessageControl), speakerControl(_speakerControl), triggerButtonID(_triggerButtonID);
-		{currentState = WaitForStart;}
-	
-	void Start();
-	void GameOver();
-	void ButtonPressed(int ButtonID);
-	void ButtonReleased(int ButtonID);
-	
-	void main();
-};
- */
