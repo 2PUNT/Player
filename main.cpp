@@ -46,8 +46,9 @@ int main(void){
 	hwlib::target::pins digitLedDisplayCLKPinID =  	hwlib::target::pins::d24;
 	hwlib::target::pins digitLedDisplayDIOPinID =  	hwlib::target::pins::d22;
 	hwlib::target::d2_36kHz IrTransmitterLED 	= 	hwlib::target::d2_36kHz();
-	hwlib::target::pins triggerButtonPinID		=  	hwlib::target::pins::d2;
+	hwlib::target::pins triggerButtonPinID		=  	hwlib::target::pins::d5;
 	hwlib::target::pins speakerPinID 			=	hwlib::target::pins::d45;
+	hwlib::target::pins reloadLedAnodeID		=	hwlib::target::pins::d53;
 
 	// Keyboard:
 	hwlib::target::pins out0ID =   hwlib::target::pins::a0;
@@ -169,8 +170,12 @@ int main(void){
 
 	Keyboard_4x4<1> keyboard = Keyboard_4x4<1>(keypad, Prioritykeyboard, "TheKeyBoard");
 
+	// <<<<<<<<<< Leds >>>>>>>>>>//
+	hwlib::target::pin_out reloadLedAnode = hwlib::target::pin_out(reloadLedAnodeID);
+	Led reloadLed  = Led(reloadLedAnode);
+	
 	// <<<<<<<<<< IRunGameTasks >>>>>>>>>>//
-	ShootControl shootControl = ShootControl(PriorityShootControl, "shootControl", playerData, shotDatas, remainingTime, encodeDecodeMSG, displayControl, sendIrMessageControl, speakerControl, triggerButtonID);
+	ShootControl shootControl = ShootControl(PriorityShootControl, "shootControl", playerData, shotDatas, remainingTime, encodeDecodeMSG, reloadLed, sendIrMessageControl, speakerControl, triggerButtonID);
 
 	IButtonListener* shootControl_ButtonListener = &shootControl;
 	triggerButton.SetButtonListener(shootControl_ButtonListener); // add shootControl to the listeners of the triggerButton.
@@ -178,7 +183,7 @@ int main(void){
 
 	IRunGameTaskDummy irunGameTaskDummy; // a tmp Dummy to fix a small circular reference we have....
 	UpdateGameTimeControl updateGameTimeControl = UpdateGameTimeControl(PriorityUpdateGameTimeControl, "updateGameTimeControl", remainingTime, digitLedDisplay, shootControl, irunGameTaskDummy, speakerControl, tdc); // give a dummy for now
-	ProcessHitControl processHitControl = ProcessHitControl(PriorityProcessHitControl, "processHitControl", remainingTime, hitDatas, playerData, updateGameTimeControl, shootControl);
+	ProcessHitControl processHitControl = ProcessHitControl(PriorityProcessHitControl, "processHitControl", remainingTime, hitDatas, playerData, updateGameTimeControl, shootControl, displayControl);
 
 	updateGameTimeControl.SetProcessHitControl(processHitControl); // replace the dummy with the actual processHitControl and the circular reference is fixed.
 

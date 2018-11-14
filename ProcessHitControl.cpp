@@ -19,10 +19,10 @@ void ProcessHitControl::main(){
 	 while(true){
 		switch(S){
 			case STATE::WAITING_ON_START:{
-				//entry display health
 				wait(StartFlagHit);
 				S = STATE::GAME_RUNNING;
 				MessagesReceivedRunQueue.clear();
+				displayControl.DisplayString(playerData.GetHealth(), StringType::HEALTH);
 			}
 			
 			case STATE::GAME_RUNNING:{
@@ -49,6 +49,7 @@ void ProcessHitControl::main(){
 							hit.HitTimeMS = time.Get(); //get remainging game time
 							hitdatas.Add(hit); //add hit to hitdata
 							playerData.DecreaseHealth(msg.data); //decrease health
+							displayControl.DisplayString(playerData.GetHealth(), StringType::HEALTH);
 							
 							if(playerData.GetHealth() <= 0){
 								gameTimeControl.GameOver();

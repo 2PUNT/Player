@@ -36,7 +36,7 @@ void ShootControl::main(){
 				shootMessage = encodeDecoder.EncodeMessage(Message(playerData.GetID(), playerData.GetFirePower())); // message composed of player's ID and Firepower.
 				currentState = Idle;
 				PressedButtonsQueue.clear();
-				//displayControl.Clear(StringType::RELOAD);
+				led.TurnOnOff(false);
 				break;
 			}
 			case Idle:{
@@ -51,7 +51,7 @@ void ShootControl::main(){
 					sendIrMessageControl.sendMessage(shootMessage);
 					//hwlib::cout << "S\n";
 					speakerControl.MakeSound(ShootSound);
-					//displayControl.DisplayString("R", StringType::RELOAD);
+					led.TurnOnOff(true);
 					//hwlib::cout << "ShootControl: Making sound\n";
 					currentState = Reload;
 				}
@@ -64,7 +64,7 @@ void ShootControl::main(){
 				if(lastEvent == GameOverFlagShoot) suspend(); // end the task!
 				else if(lastEvent == ShootTimer){
 					PressedButtonsQueue.clear();
-					//displayControl.Clear(StringType::RELOAD);
+					led.TurnOnOff(false);
 					currentState = Idle;
 				}
 				break;

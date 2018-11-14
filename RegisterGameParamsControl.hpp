@@ -7,6 +7,7 @@
 #include "Entities.hpp"
 #include "ProcessHitControl.hpp"
 #include "UpdateGametimeControl.hpp"
+#include "DisplayControl.hpp"
 
 /// @file
 

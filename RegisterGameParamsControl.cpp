@@ -45,6 +45,8 @@ void RegisterGameParamsControl::main(){
 						startTimer.set(5'000'000);
 						hwlib::cout << "RegisterGameParamsControl: Wait for start countdown\n";
 						wait(startTimer);
+						displayControl.Clear(StringType::HEALTH);
+						displayControl.Clear(StringType::RELOAD);
 						processHitControl.Start();
 						gameTimeControl.Start();
 						shootControl.Start();
