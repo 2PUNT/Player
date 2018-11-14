@@ -50,14 +50,14 @@ int main(void){
 	hwlib::target::pins speakerPinID 			=	hwlib::target::pins::d45;
 
 	// Keyboard:
-	hwlib::target::pins out0ID =   hwlib::target::pins::a0 ;
-	hwlib::target::pins out1ID =   hwlib::target::pins::a1 ;
-	hwlib::target::pins out2ID =   hwlib::target::pins::a2 ;
-	hwlib::target::pins out3ID =   hwlib::target::pins::a3 ;
-	hwlib::target::pins in0ID  =   hwlib::target::pins::a4 ;
-	hwlib::target::pins in1ID  =   hwlib::target::pins::a5 ;
-	hwlib::target::pins in2ID  =   hwlib::target::pins::a6 ;
-	hwlib::target::pins in3ID  =   hwlib::target::pins::a7 ;
+	hwlib::target::pins out0ID =   hwlib::target::pins::a0;
+	hwlib::target::pins out1ID =   hwlib::target::pins::a1;
+	hwlib::target::pins out2ID =   hwlib::target::pins::a2;
+	hwlib::target::pins out3ID =   hwlib::target::pins::a3;
+	hwlib::target::pins in0ID  =   hwlib::target::pins::a4;
+	hwlib::target::pins in1ID  =   hwlib::target::pins::a5;
+	hwlib::target::pins in2ID  =   hwlib::target::pins::a6;
+	hwlib::target::pins in3ID  =   hwlib::target::pins::a7;
 
 
 	// <<<<<<<<<< All priorities >>>>>>>>>>//
