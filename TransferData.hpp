@@ -43,9 +43,9 @@ class PersonalComputer{
 		//! @param ShotDataLength id needs to be given to know how many times have been shot
 		void print_activities(int8_t PlayerFirePower,	uint16_t HitDataLength,	uint16_t ShotDataLength){
 			hwlib::cout << "De activiteiten log is als volgt: " << hwlib::endl;
-			hwlib::cout << "Je hebt " << ShotDataLength << "aantal keer geschoten en daardoor heb je " << ShotDataLength * PlayerFirePower << " aantal seconden moeten wachten" << hwlib::endl;
+			hwlib::cout << "Je hebt " << ShotDataLength << " aantal keer geschoten en daardoor heb je " << ShotDataLength * PlayerFirePower << " aantal seconden moeten wachten" << hwlib::endl;
 			hwlib::cout << "je bent in de volgorde geraakt door de volgende mensen in de aflopende aantallen" << hwlib::endl;
-			hwlib::cout << "Je bent " << HitDataLength   << "aantal keer beschoten en daardoor heb je " << (HitDataLength * 2)  << "aantal seconden moeten wachten" << hwlib::endl; // TODO: Time defined for hit wait
+			hwlib::cout << "Je bent " << HitDataLength   << " aantal keer beschoten en daardoor heb je " << (HitDataLength * 2)  << " aantal seconden moeten wachten" << hwlib::endl; // TODO: Time defined for hit wait
 		}
 
 		//! @param PlayerHealth is used to cout the latest health of player
