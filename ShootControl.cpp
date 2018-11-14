@@ -34,6 +34,7 @@ void ShootControl::main(){
 				wait(StartFlagShoot);
 				reloadTime = playerData.GetFirePower() * 1000000;
 				shootMessage = encodeDecoder.EncodeMessage(Message(playerData.GetID(), playerData.GetFirePower())); // message composed of player's ID and Firepower.
+				hwlib::cout << "Shoot message = " << hwlib::bin << shootMessage << hwlib::dec <<'\n';
 				currentState = Idle;
 				PressedButtonsQueue.clear();
 				led.TurnOnOff(false);

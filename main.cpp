@@ -62,10 +62,10 @@ int main(void){
 
 
 	// <<<<<<<<<< All priorities >>>>>>>>>>//
-	const unsigned int PriorityPauseDetectionControl	= 1;
-	const unsigned int Prioritykeyboard					= 2;
+	const unsigned int PriorityPauseDetectionControl	= 2;
+	const unsigned int Prioritykeyboard					= 4;
 	const unsigned int PrioritySpeakerControl 			= 9;
-	const unsigned int PrioritySendIrMessageControl 	= 4;
+	const unsigned int PrioritySendIrMessageControl 	= 1;
 	const unsigned int PriorityTriggerButton			= 3;
 	const unsigned int PriorityShootControl 			= 5;
 	const unsigned int PriorityUpdateGameTimeControl	= 11;
@@ -74,20 +74,26 @@ int main(void){
 	const unsigned int PriorityMSGDecoderControl    	= 6;
 
 	// <<<<<<<<<< Sounds >>>>>>>>>>//
-	note gameOverSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
+	/* note gameOverSound[] = {note( 587,  500000 ),note( 784,  500000 ),note( 784,  500000 ),note( 784,  250000 ),note( 494,  250000 ),note( 1046,  250000 ),note( 440,  250000 ),note( 494,  500000 ),note( 440,  250000 ),
+		note( 494,  250000 ),note( 1046,  500000 ),note( 494,  500000 ),note( 440,  250000 ),note( 784,  250000 ),note( 440,  250000 ),note( 523,  250000 ),note( 784,  1000000 ),note( 587,  500000 ),
+		note( 784,  500000 ),note( 784,  500000 ),note( 440,  250000 ),note( 494,  250000 ),note( 1046,  250000 ),note( 440,  250000 ),note( 494,  500000 ),note( 440,  250000 ),note( 494,  250000 ),
+		note( 1046,  500000 ),note( 494,  500000 ),note( 440,  250000 ),note( 784,  250000 ),note( 440,  250000 ),note( 523,  250000 ),note( 784,  1000000 ),note( 494,  250000 ),note( 1046,  250000 ),
+		note( 1174,  1000000 ),note( 1318,  500000 ),note( 1174,  1000000 ),note( 1046,  500000 ),note( 494,  500000 ),note( 440,  250000 ),note( 494,  250000 ),note( 1046,  500000 ),
+		note( 494,  500000 ),note( 440,  500000 ),note( 784,  500000 ),note( 440,  1000000 ),note( 587,  1000000 ),note( 784,  250000 ),note( 698,  250000 ),note( 784,  250000 ),note( 440,  250000 ),
+		note( 494,  500000 ),note( 440,  1000000 ),note( 784,  750000 ),note( 698,  250000 ),note( 587,  500000 ),note( 587,  500000 ),note( 659,  250000 ),note( 698,  250000 ),
+		note( 784,  750000 ),note( 784,  250000 ),note( 659,  500000 ),note( 698,  500000 ),note( 784,  1000000 )}; */
+	note shootSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
 		note( -1,  -1 )};
-	//note shootSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
-	//	note( -1,  -1 )};
 	//note hitSound[] = {note( 621,  93750 ),note( 587,  93750 ),note( 621,  93750 ),note( 739,  375000 ),note( 830,  93750 ),note( 739,  93750 ),note( 698,  93750 ),note( 739,  93750 ),note( 466,  375000 ),
 	//	note( -1,  -1 )};
-	GameOverSound = gameOverSound;
-	ShootSound = gameOverSound;
-	HitSound = gameOverSound;
+	GameOverSound = shootSound;
+	ShootSound = shootSound;
+	HitSound = shootSound;
 
 	// <<<<<<<<<< Other Data >>>>>>>>>>//
 	int defaultPlayerHealth = 100;
-	uint16_t irTransmitterLow = 1600;
-	uint16_t irTransmitterHigh = 1800;
+	uint16_t irTransmitterLow = 800;
+	uint16_t irTransmitterHigh = 1600;
 	int triggerButtonID = 1;
 
 
@@ -139,7 +145,7 @@ int main(void){
 
 	// <<<<<<<<<< IRSend >>>>>>>>>>//
 	IrTransmitter irTransmitter = IrTransmitter(IrTransmitterLED);
-	SendIrMessageControl sendIrMessageControl = SendIrMessageControl(irTransmitter, irTransmitterLow, irTransmitterHigh, PrioritySendIrMessageControl); // what are the high and low parameters?
+	SendIrMessageControl sendIrMessageControl = SendIrMessageControl(irTransmitter, irTransmitterLow, irTransmitterHigh, PrioritySendIrMessageControl);
 
 	// <<<<<<<<<< EncodeDecodeMSG >>>>>>>>>>//
 	EncodeDecodeMSG encodeDecodeMSG = EncodeDecodeMSG();
