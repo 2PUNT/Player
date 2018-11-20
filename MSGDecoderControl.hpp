@@ -66,7 +66,7 @@ struct RecordCollection {
     }
     return false;
   }
-}
+};
 
 
 class MessageChanneler{
