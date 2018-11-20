@@ -102,7 +102,7 @@ private:
     Message em;
     MessageChanneler& Channeler;
     EncodeDecodeMSG & Encode;
-    Record Records[10];
+    RecordCollection Records[RECORD_COLLECTION_LENGTH];
     rtos::channel<int,16> PauseQueue;
     rtos::timer DecoderTimer;
     enum class state_t {WAIT_FOR_PAUSE}; // TODO: Delete
