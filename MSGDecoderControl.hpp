@@ -17,9 +17,9 @@ struct Record{
 
 struct RecordCollection {
 
-  Record Records[RECORD_COLLECTION_LENGTH];
-  uint8_t[RECORD_COLLECTION_LENGTH] known;
-  uint8_t[RECORD_COLLECTION_LENGTH] unknown;
+  Record  Records [RECORD_COLLECTION_LENGTH];
+  uint8_t known   [RECORD_COLLECTION_LENGTH];
+  uint8_t unknown [RECORD_COLLECTION_LENGTH];
 
   void addRecord(Record & r){
     cleanUpRecords();
@@ -40,10 +40,9 @@ struct RecordCollection {
   int getCurrentFreeRecord(){
     cleanUpRecords();
     uint8_t id= 0;
-    for(auto u: unknown){
-
-      if(u != 0){ // implying that there is an empty spot which their should be given the time window
-        id = k;
+    for(uint8_t i = 0; i < RECORD_COLLECTION_LENGTH; i++){
+      if(unknown[i] != 0){ // implying that there is an empty spot which their should be given the time window
+        id = i;
       }
       break;
     }
