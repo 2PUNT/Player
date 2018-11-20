@@ -1,12 +1,6 @@
 #include "MSGDecoderControl.hpp"
 
 
-struct Record{
-    uint16_t message;
-    uint_fast64_t time;
-};
-
-
 void MSGDecoderControl::PauseDetected(int n){
   if(n > 0){
     PauseQueue.write(n);
