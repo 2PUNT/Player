@@ -12,7 +12,6 @@
 struct Record{
     uint16_t message;
     uint_fast64_t time;
-
 };
 
 struct RecordCollection {

@@ -17,7 +17,10 @@ bool MSGDecoderControl::check(uint16_t m){
 }
 
 void MSGDecoderControl::knownMessage(uint16_t m){
-    Records.addRecord(Record(m,hwlib::now_us()));
+    Record r;
+    r.message = m;
+    r.time = hwlib::now_us();
+    Records.addRecord();
 }
 
 bool MSGDecoderControl::messageKnown(uint16_t m){
