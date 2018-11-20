@@ -8,14 +8,70 @@
 #include "RegisterGameParamsControl.hpp"
 #include "ProcessHitControl.hpp"
 
+#define RECORD_COLLECTION_LENGTH 20
 struct Record{
     uint16_t message;
     uint_fast64_t time;
+
 };
+
+struct RecordCollection {
+
+  Record Records[RECORD_COLLECTION_LENGTH];
+  uint8_t[RECORD_COLLECTION_LENGTH] known;
+  uint8_t[RECORD_COLLECTION_LENGTH] unknown;
+
+  void addRecord(Record & r){
+    cleanUpRecords();
+    uint8_t id = getCurrentFreeRecord();
+    Records[id] = r;
+  }
+
+  void cleanUpRecords(){
+    uint_fast64_t removal_limit = hwlib::now_us() - 2500;
+    for(uint8_t i = 0; i < RECORD_COLLECTION_LENGTH; i++){
+      if(Records[i].time < removal_limit){
+          unknown[i] = i;
+          known[i] = 0;
+      }
+    }
+  }
+
+  int getCurrentFreeRecord(){
+    cleanUpRecords();
+    uint8_t id= 0;
+    for(auto u: unknown){
+
+      if(u != 0){ // implying that there is an empty spot which their should be given the time window
+        id = k;
+      }
+      break;
+    }
+    if(id == 0){
+      getCurrentFreeRecord(); // recursive call just to be sure.
+    }
+    known[id]   = id;
+    unknown[id] = 0;
+    return id;
+  }
+
+  bool checkKnown(Record & r){
+    cleanUpRecords();
+    for(auto k: known){
+        if(k!= 0){
+          if(Records[k].message == r.message){
+            return true;
+        }
+      }
+    }
+    return false;
+  }
+}
+
 
 class MessageChanneler{
 private:
-    Message m;
+  Message m;
 	RegisterGameParamsControl& RegGame;
 	ProcessHitControl& HitControl;
 public:
@@ -41,6 +97,8 @@ private:
     uint16_t mKnown;
     int n = 0;
     int p;
+    int recordLength = 0;
+    std::array<int, 10> toClear;
     Message em;
     MessageChanneler& Channeler;
     EncodeDecodeMSG & Encode;

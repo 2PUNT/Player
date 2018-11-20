@@ -1,9 +1,9 @@
 #include "MSGDecoderControl.hpp"
 
 void MSGDecoderControl::PauseDetected(int n){
-      if(n > 0){
-        PauseQueue.write(n);
-      }
+  if(n > 0){
+    PauseQueue.write(n);
+  }
 }
 
 
@@ -13,20 +13,26 @@ bool MSGDecoderControl::check(uint16_t m){
   }else{
       return false;
   }
-}
 
 void MSGDecoderControl::knownMessage(uint16_t m){
-//    Records[i] = Record(m,hwlib::now_us());
-//    mKnown = m;
-//    if(i==16) i=0;
-//    else i++;
-//    return false;
+    for(auto l : toClear){
+          for(uint8_t z = l; z > 0; z++){
+
+
+          }
+    }
+    Records[recordLength] = Record(m,hwlib::now_us());
+
+
 }
 
 bool MSGDecoderControl::messageKnown(uint16_t m){
-  //msg
-//    return mKnown == m ? 1 : 0;
-  return true;
+
+  for(uint8_t t = 0; t < 10; t++){
+    if(Records[t].time < hwlib::now_us + 10){
+
+    }
+  }
 }
 void MSGDecoderControl::main(){
   uint16_t n =0;
@@ -49,9 +55,12 @@ void MSGDecoderControl::main(){
             m+=1;
             n = 15;
             if(check(m)){
-				hwlib::cout << "MSGDecoderControl: Check returned true\n";
-              auto em =  Encode.DecodeMessage(m);
-              Channeler.SendMessage(em);
+				      hwlib::cout << "MSGDecoderControl: Check returned true\n";
+              if(){
+                auto em =  Encode.DecodeMessage(m);
+                Channeler.SendMessage(em);
+                knownMessage(m);
+              }
             }else hwlib::cout << "MSGDecoderControl: Check returned false!\n";
             m=0;
           }else{
