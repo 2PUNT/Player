@@ -14,13 +14,14 @@ bool MSGDecoderControl::check(uint16_t m){
   }else{
       return false;
   }
+}
 
 void MSGDecoderControl::knownMessage(uint16_t m){
     Records.addRecord(Record(m,hwlib::now_us()));
 }
 
 bool MSGDecoderControl::messageKnown(uint16_t m){
-  return Records.checkKnown();
+  return Records.checkKnown(m);
 }
 void MSGDecoderControl::main(){
   uint16_t n =0;
