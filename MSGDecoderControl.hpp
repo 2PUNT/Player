@@ -53,11 +53,11 @@ struct RecordCollection {
     return id;
   }
 
-  bool checkKnown(Record & r){
+  bool checkKnown(uint16_t message){
     cleanUpRecords();
     for(auto k: known){
         if(k!= 0){
-          if(Records[k].message == r.message){
+          if(Records[k].message == message){
             return true;
         }
       }

@@ -20,7 +20,7 @@ void MSGDecoderControl::knownMessage(uint16_t m){
     Record r;
     r.message = m;
     r.time = hwlib::now_us();
-    Records.addRecord();
+    Records.addRecord(r);
 }
 
 bool MSGDecoderControl::messageKnown(uint16_t m){
