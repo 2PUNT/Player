@@ -58,6 +58,7 @@ struct RecordCollection {
     for(auto k: known){
         if(k!= 0){
           if(Records[k].message == message){
+			hwlib::cout << "message was already known: " << hwlib::bin << message << hwlib::dec <<'\n';
             return true;
         }
       }
@@ -78,10 +79,10 @@ public:
 	HitControl(_HitControl)
 	{};
     void SendMessage(Message m){
-		hwlib::cout << "MessageChanneler: Message received\n";
+		//hwlib::cout << "MessageChanneler: Message received\n";
         if(m.senderID == 0x00){
             RegGame.CommandReceived(m);
-			hwlib::cout << "MessageChanneler: CommandReceived\n";
+			//hwlib::cout << "MessageChanneler: CommandReceived\n";
         }else{
             HitControl.HitReceived(m);
 			hwlib::cout << "MessageChanneler: HitReceived\n";

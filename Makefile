@@ -9,10 +9,10 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := Led.cpp Entities.cpp EncodeDecodeMSG.cpp IrReceiver.cpp InitGameControl.cpp DisplayControl.cpp MSGDecoderControl.cpp ProcessHitControl.cpp RegisterGameParamsControl.cpp ShootControl.cpp UpdateGametimeControl.cpp Speaker.cpp SpeakerControl.cpp DigitLedDisplay.cpp
+SOURCES := MSGDecoderControl.cpp Led.cpp Entities.cpp EncodeDecodeMSG.cpp IrReceiver.cpp InitGameControl.cpp DisplayControl.cpp ProcessHitControl.cpp RegisterGameParamsControl.cpp ShootControl.cpp UpdateGametimeControl.cpp Speaker.cpp SpeakerControl.cpp DigitLedDisplay.cpp
 
 # header files in this project
-HEADERS := Led.hpp ADTs.hpp IRunGameTaskDummy.hpp EncodeDecodeMSG.hpp IrReceiver.hpp PauseDetectionControl.hpp IrTransmitter.hpp SendIrMessageControl.hpp Keyboard_4x4.hpp Speaker.hpp SpeakerControl.hpp DisplayControl.hpp TransferData.hpp Entities.hpp ShootControl.hpp IRunGameTask.hpp IRunGameTaskDummy.hpp MSGDecoderControl.hpp RegisterGameParamsControl.hpp ProcessHitControl.hpp UpdateGameTimeControl.hpp DigitLedDisplay.hpp note.hpp
+HEADERS := MSGDecoderControl.hpp Led.hpp ADTs.hpp IRunGameTaskDummy.hpp EncodeDecodeMSG.hpp IrReceiver.hpp PauseDetectionControl.hpp IrTransmitter.hpp SendIrMessageControl.hpp Keyboard_4x4.hpp Speaker.hpp SpeakerControl.hpp DisplayControl.hpp TransferData.hpp Entities.hpp ShootControl.hpp IRunGameTask.hpp IRunGameTaskDummy.hpp RegisterGameParamsControl.hpp ProcessHitControl.hpp UpdateGameTimeControl.hpp DigitLedDisplay.hpp note.hpp
 
 
 # other places to look for files for this project

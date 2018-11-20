@@ -38,21 +38,21 @@ void MSGDecoderControl::main(){
     }
     else if(ev == PauseQueue){
     uint16_t p = PauseQueue.read();
-      if(p > 500 && p < 2000){
+      if(p > 400 && p < 2500){
           bit = (p < 1100) ? 1: 0;
           m += (bit << (n));
           n--;
           if(n == 0){
-			hwlib::cout << "MSGDecoderControl: Message received, checking...\n";
+			//hwlib::cout << "MSGDecoderControl: Message received, checking...\n";
             m+=1;
             n = 15;
             if(check(m)){
-				      hwlib::cout << "MSGDecoderControl: Check returned true\n";
-              if(! messageKnown(m)){
+				      //hwlib::cout << "MSGDecoderControl: Check returned true\n";
+              //if(! messageKnown(m)){
                 auto em =  Encode.DecodeMessage(m);
                 Channeler.SendMessage(em);
-                knownMessage(m);
-              }
+                //knownMessage(m);
+              //}
             }else hwlib::cout << "MSGDecoderControl: Check returned false!\n";
             m=0;
           }else{

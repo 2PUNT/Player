@@ -48,7 +48,7 @@ int main(void){
 	hwlib::target::d2_36kHz IrTransmitterLED 	= 	hwlib::target::d2_36kHz();
 	hwlib::target::pins triggerButtonPinID		=  	hwlib::target::pins::d5;
 	hwlib::target::pins speakerPinID 			=	hwlib::target::pins::d45;
-	hwlib::target::pins reloadLedAnodeID		=	hwlib::target::pins::d53;
+	hwlib::target::pins reloadLedAnodeID		=	hwlib::target::pins::d7;
 
 	// Keyboard:
 	hwlib::target::pins out0ID =   hwlib::target::pins::a0;
