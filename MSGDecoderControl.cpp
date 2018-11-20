@@ -1,5 +1,12 @@
 #include "MSGDecoderControl.hpp"
 
+
+struct Record{
+    uint16_t message;
+    uint_fast64_t time;
+};
+
+
 void MSGDecoderControl::PauseDetected(int n){
   if(n > 0){
     PauseQueue.write(n);
@@ -15,24 +22,11 @@ bool MSGDecoderControl::check(uint16_t m){
   }
 
 void MSGDecoderControl::knownMessage(uint16_t m){
-    for(auto l : toClear){
-          for(uint8_t z = l; z > 0; z++){
-
-
-          }
-    }
-    Records[recordLength] = Record(m,hwlib::now_us());
-
-
+    Records.addRecord(Record(m,hwlib::now_us()));
 }
 
 bool MSGDecoderControl::messageKnown(uint16_t m){
-
-  for(uint8_t t = 0; t < 10; t++){
-    if(Records[t].time < hwlib::now_us + 10){
-
-    }
-  }
+  return Records.checkKnown();
 }
 void MSGDecoderControl::main(){
   uint16_t n =0;
