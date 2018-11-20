@@ -48,7 +48,7 @@ void MSGDecoderControl::main(){
             n = 15;
             if(check(m)){
 				      hwlib::cout << "MSGDecoderControl: Check returned true\n";
-              if(){
+              if(messageKnown(m)){
                 auto em =  Encode.DecodeMessage(m);
                 Channeler.SendMessage(em);
                 knownMessage(m);
