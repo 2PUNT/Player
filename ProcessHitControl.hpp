@@ -34,11 +34,18 @@ class ProcessHitControl: public rtos::task<>, public IRunGameTask{
 
 	void main();
 public:
-	///@fn ProcessHitControl::ProcessHitControl(const unsigned int priority, const char* name)
+	///@fn ProcessHitControl::ProcessHitControl(const unsigned int priority, const char* name, RemainingTime& time, HitDatas& hitdatas, PlayerData& playerData, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl, DisplayControl& _displayControl):
 	///@brief The constructor for the ProcessHitControl class.
 	///@details This contructor creates a ProcessHitControl object.
 	///@param priority Priority of the task.
 	///@param name Name of the task.
+	///@param time Entity object where the remaining game time is stored.
+	///@param hitdatas Entity object where every hit received is recorded.
+	///@param playerData Entity object where the players data is stored.
+	///@param _gameTimeControl RTOS Task that keeps track of the remaining time.
+	///@param _gameTimeControl RTOS Task that keeps track of the remaining time.
+	///@param _shootControl RTOS Task for shooting other players
+	///@param _displayControl RTOS Task for Displaying information
 	ProcessHitControl(const unsigned int priority, const char* name, RemainingTime& time, HitDatas& hitdatas, PlayerData& playerData, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl, DisplayControl& _displayControl):
 		task(priority, name), MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
 		StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),

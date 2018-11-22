@@ -45,11 +45,17 @@ private:
 
 	void main();
 public:
-	///@fn RegisterGameParamsControl::RegisterGameParamsControl(const unsigned int priority, const char* name)
+	///@fn RegisterGameParamsControl::RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, PlayerData& _playerData, DisplayControl& _displayControl)
 	///@brief The constructor for the RegisterGameParamsControl class.
 	///details This constructor creates a RegisterGameParamsControl object.
 	///@param priority Priority of the task.
 	///@param name Name of the task.
+	///@param _remainingTime The remaining time.
+	///@param _processHitControl A @c ProcessHitControl object.
+	///@param _gameTimeControl A @c UpdateGameTimeControl object.
+	///@param _shootControl A @c ShootControl object.
+	///@param _playerData A @c PlayerData struct.
+	///@param _displayControl @c DisplayControl object.
 	RegisterGameParamsControl(const unsigned int priority, const char* name, RemainingTime& _remainingTime, ProcessHitControl& _processHitControl, UpdateGameTimeControl& _gameTimeControl, ShootControl& _shootControl, PlayerData& _playerData, DisplayControl& _displayControl):
 		 task(priority, name), startTimer(this, "startTimer"), KeyPressedRegQueue(this, "KeyPressedRegQueue"), MessagesReceivedRegQueue(this, "MessagesReceivedRegQueue"),
 		 processHitControl(_processHitControl), remainingTime(_remainingTime), gameTimeControl(_gameTimeControl), shootControl(_shootControl), playerData(_playerData), displayControl(_displayControl){};
