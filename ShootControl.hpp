@@ -55,7 +55,7 @@ public:
 	///@param _shotDatas Entity object where the every shot fired by this player is recorded.
 	///@param _remainingTime Entity object where the remaining game time is stored.
 	///@param _encodeDecoder Application Logic object that is used to encode or decode a message.
-	///@param _led Boundry object that controls an Led that is used to show reload time.
+	///@param _led Boundary object that controls an Led that is used to show reload time.
 	///@param _sendIrMessageControl RTOS task that is responsible for sending the IR message
 	///@param _speakerControl RTOS Task that is responsible for controlling the speaker
 	///@param triggerID The ID that is assinged to the Button which is designated for shooting
