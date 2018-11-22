@@ -2,6 +2,10 @@
 #define PLAYER_ADTS_HPP
 #include "hwlib.hpp"
 
+/// @file
+
+///@struct HitData
+///@brief ADT for recording the ShootersID and Time of an hit.
 struct HitData{
 public:
 	HitData(): ShooterID(0), HitTimeMS(0){}
@@ -10,6 +14,9 @@ public:
 	int HitTimeMS;
 };
 
+
+///@struct ShotData
+///@brief ADT for recording the of a shot.
 struct ShotData{
 public:
 	ShotData():ShotTimeMS(0){}
@@ -17,6 +24,9 @@ public:
 	int ShotTimeMS;
 };
 
+
+///@struct PlayerDataCollection
+///@brief ADT for storing all player data.
 struct PlayerDataCollection{
 public:
 	PlayerDataCollection(){}
@@ -29,6 +39,8 @@ public:
 	uint16_t ShotDataLength;
 };
 
+///@struct Message
+///@brief ADT of an Message (command or hit)
 struct Message{
 	uint8_t senderID;
 	uint8_t data;
