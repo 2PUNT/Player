@@ -1,7 +1,7 @@
 #include "ProcessHitControl.hpp"
 
 void ProcessHitControl::Start(){
-	hwlib::cout << "ProcessHitControl: Start() called\n";
+	//hwlib::cout << "ProcessHitControl: Start() called\n";
 	StartFlagHit.set();
 }
 
@@ -33,6 +33,7 @@ void ProcessHitControl::main(){
 						case SUBSTATE::WAITING_ON_HIT:{
 							auto event = wait(GameOverFlagHit + MessagesReceivedRunQueue);
 							if(event == GameOverFlagHit){
+								transferDataControl.StartTransfer();
 								suspend(); //end reached
 							}else if(event == MessagesReceivedRunQueue){
 								SUB = SUBSTATE::WAITING_ON_TIMER;
@@ -45,7 +46,7 @@ void ProcessHitControl::main(){
 							Message msg = MessagesReceivedRunQueue.read();
 							ProcessHitTimer.set(5'000'000);
 							hit.ShooterID = msg.senderID;
-							hwlib::cout << "ProcessHitControl: hit received, sender: " << msg.senderID << '\n';
+							//hwlib::cout << "ProcessHitControl: hit received, sender: " << msg.senderID << '\n';
 							hit.HitTimeMS = time.Get(); //get remainging game time
 							hitdatas.Add(hit); //add hit to hitdata
 							playerData.DecreaseHealth(msg.data); //decrease health
@@ -54,6 +55,7 @@ void ProcessHitControl::main(){
 								displayControl.DisplayString("You are dead", StringType::HEALTH);
 								gameTimeControl.GameOver();
 								shootControl.GameOver();
+								transferDataControl.StartTransfer();
 								suspend(); //end reached
 							}
 							
@@ -61,6 +63,7 @@ void ProcessHitControl::main(){
 							
 							auto event = wait();
 							if(event == GameOverFlagHit){
+								transferDataControl.StartTransfer();
 								suspend(); //end reached
 							}else if(event == ProcessHitTimer){
 								MessagesReceivedRunQueue.clear();

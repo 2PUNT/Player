@@ -2,12 +2,12 @@
 
 
 void RegisterGameParamsControl::CommandReceived(Message Command){
-	hwlib::cout << "RegisterGameParamsControl: CommandReceived: ID: " << Command.senderID << " Data: " << Command.data << '\n';
+	//hwlib::cout << "RegisterGameParamsControl: CommandReceived: ID: " << Command.senderID << " Data: " << Command.data << '\n';
 	MessagesReceivedRegQueue.write(Command);
 }
 
 void RegisterGameParamsControl::KeyboardKeyPressed(char Key){
-	hwlib::cout << "RegisterGameParamsControl: KeyboardKeyPressed: Key: " << Key << '\n';
+	//hwlib::cout << "RegisterGameParamsControl: KeyboardKeyPressed: Key: " << Key << '\n';
 	KeyPressedRegQueue.write(Key);
 }
 
@@ -51,7 +51,7 @@ void RegisterGameParamsControl::main(){
 						gameTimeControl.Start();
 						shootControl.Start();
 						//hwlib::cout<< "start" << hwlib::endl;
-						hwlib::cout << "RegisterGameParamsControl: State: END\n";
+						//hwlib::cout << "RegisterGameParamsControl: State: END\n";
 						suspend();
 					}else{
 						break;

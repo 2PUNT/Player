@@ -33,7 +33,7 @@ void MSGDecoderControl::main(){
   while(true){
     auto ev = wait(DecoderTimer + PauseQueue);
     if(ev == DecoderTimer){
-	  hwlib::cout << "message incomplete: N: " << n << " m: " << hwlib::bin << m << hwlib::dec <<'\n';
+	  //hwlib::cout << "message incomplete: N: " << n << " m: " << hwlib::bin << m << hwlib::dec <<'\n';
       n=15;
       m=0;
     }
@@ -54,7 +54,7 @@ void MSGDecoderControl::main(){
                 Channeler.SendMessage(em);
                 //knownMessage(m);
               //}
-            }else hwlib::cout << "MSGDecoderControl: Check returned false!\n";
+            }//else hwlib::cout << "MSGDecoderControl: Check returned false!\n";
             m=0;
           }else{
             DecoderTimer.set(2500);

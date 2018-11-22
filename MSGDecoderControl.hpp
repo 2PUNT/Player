@@ -58,7 +58,7 @@ struct RecordCollection {
     for(auto k: known){
         if(k!= 0){
           if(Records[k].message == message){
-			hwlib::cout << "message was already known: " << hwlib::bin << message << hwlib::dec <<'\n';
+			//hwlib::cout << "message was already known: " << hwlib::bin << message << hwlib::dec <<'\n';
             return true;
         }
       }
@@ -85,7 +85,7 @@ public:
 			//hwlib::cout << "MessageChanneler: CommandReceived\n";
         }else{
             HitControl.HitReceived(m);
-			hwlib::cout << "MessageChanneler: HitReceived: " << m.data << "\n";
+			//hwlib::cout << "MessageChanneler: HitReceived: " << m.data << "\n";
         }
     }
 };
