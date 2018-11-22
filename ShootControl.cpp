@@ -6,8 +6,6 @@
 #include "ADTs.hpp"
 #include "SpeakerControl.hpp"
 
-#include "Dummies.cpp"
-
 void ShootControl::Start(){
 	//hwlib::cout << "ShootControl: Start() called\n";
 	StartFlagShoot.set();
