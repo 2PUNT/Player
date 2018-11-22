@@ -6,6 +6,7 @@
 #include "IRunGameTask.hpp"
 #include "Entities.hpp"
 #include "DisplayControl.hpp"
+#include "TransferData.hpp"
 /// @file
 
 /// \brief
@@ -27,6 +28,7 @@ class ProcessHitControl: public rtos::task<>, public IRunGameTask{
 	HitDatas& hitdatas;
 	PlayerData& playerData;
 	DisplayControl& displayControl;
+	TransferDataControl& transferDataControl;
 
 	enum class STATE {WAITING_ON_START, GAME_RUNNING};
 	enum class SUBSTATE {WAITING_ON_HIT, WAITING_ON_TIMER};
@@ -46,12 +48,13 @@ public:
 	///@param _gameTimeControl RTOS Task that keeps track of the remaining time.
 	///@param _shootControl RTOS Task for shooting other players
 	///@param _displayControl RTOS Task for Displaying information
-	ProcessHitControl(const unsigned int priority, const char* name, RemainingTime& time, HitDatas& hitdatas, PlayerData& playerData, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl, DisplayControl& _displayControl):
+	///@param _transferDataControl RTOS Task that is responsible for displaying information at the end of the game
+	ProcessHitControl(const unsigned int priority, const char* name, RemainingTime& time, HitDatas& hitdatas, PlayerData& playerData, IRunGameTask& _gameTimeControl, IRunGameTask& _shootControl, DisplayControl& _displayControl, TransferDataControl& _transferDataControl):
 		task(priority, name), MessagesReceivedRunQueue(this, "MessagesReceivedRunQueue"),
 		StartFlagHit(this, "startFlagHit"), GameOverFlagHit(this, "GameOverFlagHit"),
 		ProcessHitTimer(this, "ProcessHitTimer"),
 		gameTimeControl(_gameTimeControl), shootControl(_shootControl),
-		time(time), hitdatas(hitdatas), playerData(playerData), displayControl(_displayControl){};
+		time(time), hitdatas(hitdatas), playerData(playerData), displayControl(_displayControl), transferDataControl(_transferDataControl){};
 
 	///@fn void ProcessHitControl::Start()
 	///@brief Starts this task.

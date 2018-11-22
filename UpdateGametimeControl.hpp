@@ -33,7 +33,6 @@ private:
 	IRunGameTask& shootControl; // a reference to the shootControl, which is to be notified when the game time is over.
 	IRunGameTask& processHitControl; // a reference to the processHitControl, which is to be notified when the game time is over.
 	SpeakerControl& speakerControl;
-	TransferDataControl& transferDataControl;
 
 	int msToTimeSeconds(int timeMS); // convert the remaining time in ms to displayable seconds.
 	int msToTimeMinutes(int timeMS); // convert the remaining time in ms to displayable minutes.
@@ -49,11 +48,10 @@ public:
 	///@param _shootControl RTOS Task that is responsible for shooting (sending) an IR message
 	///@param _processHitControl RTOS Task that is responsible for processing hits on the player
 	///@param _speakerControl RTOS Task that is responsible for controlling the speaker
-	///@param _transferDataControl RTOS Task that is responsible for displaying information at the end of the game
-	UpdateGameTimeControl(const unsigned int priority, const char* taskName, RemainingTime& _remainingTime, DigitLedDisplay& _digitLedDisplay, IRunGameTask& _shootControl, IRunGameTask& _processHitControl, SpeakerControl& _speakerControl, TransferDataControl& _transferDataControl):
+	UpdateGameTimeControl(const unsigned int priority, const char* taskName, RemainingTime& _remainingTime, DigitLedDisplay& _digitLedDisplay, IRunGameTask& _shootControl, IRunGameTask& _processHitControl, SpeakerControl& _speakerControl):
 		task(priority, taskName), StartFlagTime(this, "StartFlagTime"), GameOverFlagTime(this, "GameOverFlagTime"), GameTimeClock(this, 100000, "GameTimeClock"),
 		gameTime(0), maxGameTime(0), startTime(0), remainingTime(_remainingTime), digitLedDisplay(_digitLedDisplay), shootControl(_shootControl), processHitControl(_processHitControl),
-		speakerControl(_speakerControl), transferDataControl(_transferDataControl){CurrentState = WaitForStart;}
+		speakerControl(_speakerControl){CurrentState = WaitForStart;}
 		
 	///@fn void UpdateGameTimeControl::Start()
 	///@brief Starts this task.
