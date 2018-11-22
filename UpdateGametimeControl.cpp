@@ -55,6 +55,7 @@ void UpdateGameTimeControl::main(){
 					remainingTime.Set(gameTime);
 					if(gameTime <= 0){
 						//hwlib::cout << "UpdateGameTimeControl: Time's up!\n";
+						transferDataControl.StartTransfer();
 						shootControl.GameOver();
 						processHitControl.GameOver();
 						speakerControl.MakeSound(GameOverSound);

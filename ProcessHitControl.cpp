@@ -33,7 +33,6 @@ void ProcessHitControl::main(){
 						case SUBSTATE::WAITING_ON_HIT:{
 							auto event = wait(GameOverFlagHit + MessagesReceivedRunQueue);
 							if(event == GameOverFlagHit){
-								transferDataControl.StartTransfer();
 								suspend(); //end reached
 							}else if(event == MessagesReceivedRunQueue){
 								SUB = SUBSTATE::WAITING_ON_TIMER;
@@ -63,7 +62,6 @@ void ProcessHitControl::main(){
 							
 							auto event = wait();
 							if(event == GameOverFlagHit){
-								transferDataControl.StartTransfer();
 								suspend(); //end reached
 							}else if(event == ProcessHitTimer){
 								MessagesReceivedRunQueue.clear();
