@@ -49,13 +49,15 @@ void ProcessHitControl::main(){
 							hit.HitTimeMS = time.Get(); //get remainging game time
 							hitdatas.Add(hit); //add hit to hitdata
 							playerData.DecreaseHealth(msg.data); //decrease health
-							displayControl.DisplayString(playerData.GetHealth(), StringType::HEALTH);
 							
 							if(playerData.GetHealth() <= 0){
+								displayControl.DisplayString("You are dead", StringType::HEALTH);
 								gameTimeControl.GameOver();
 								shootControl.GameOver();
 								suspend(); //end reached
 							}
+							
+							displayControl.DisplayString(playerData.GetHealth(), StringType::HEALTH);
 							
 							auto event = wait();
 							if(event == GameOverFlagHit){

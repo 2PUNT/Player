@@ -33,6 +33,7 @@ void MSGDecoderControl::main(){
   while(true){
     auto ev = wait(DecoderTimer + PauseQueue);
     if(ev == DecoderTimer){
+	  hwlib::cout << "message incomplete: N: " << n << " m: " << hwlib::bin << m << hwlib::dec <<'\n';
       n=15;
       m=0;
     }

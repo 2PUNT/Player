@@ -46,7 +46,7 @@ int main(void){
 	hwlib::target::pins digitLedDisplayCLKPinID =  	hwlib::target::pins::d24;
 	hwlib::target::pins digitLedDisplayDIOPinID =  	hwlib::target::pins::d22;
 	hwlib::target::d2_36kHz IrTransmitterLED 	= 	hwlib::target::d2_36kHz();
-	hwlib::target::pins triggerButtonPinID		=  	hwlib::target::pins::d5;
+	hwlib::target::pins triggerButtonPinID		=  	hwlib::target::pins::d53;
 	hwlib::target::pins speakerPinID 			=	hwlib::target::pins::d45;
 	hwlib::target::pins reloadLedAnodeID		=	hwlib::target::pins::d7;
 

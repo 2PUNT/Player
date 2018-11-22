@@ -85,7 +85,7 @@ public:
 			//hwlib::cout << "MessageChanneler: CommandReceived\n";
         }else{
             HitControl.HitReceived(m);
-			hwlib::cout << "MessageChanneler: HitReceived\n";
+			hwlib::cout << "MessageChanneler: HitReceived: " << m.data << "\n";
         }
     }
 };
