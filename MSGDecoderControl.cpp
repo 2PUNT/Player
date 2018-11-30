@@ -36,6 +36,7 @@ void MSGDecoderControl::main(){
 	  //hwlib::cout << "message incomplete: N: " << n << " m: " << hwlib::bin << m << hwlib::dec <<'\n';
       n=15;
       m=0;
+	  mKnown = 0;
     }
     else if(ev == PauseQueue){
     uint16_t p = PauseQueue.read();
@@ -50,8 +51,12 @@ void MSGDecoderControl::main(){
             if(check(m)){
 				      //hwlib::cout << "MSGDecoderControl: Check returned true\n";
               //if(! messageKnown(m)){
-                auto em =  Encode.DecodeMessage(m);
-                Channeler.SendMessage(em);
+				if(mKnown != m){
+					auto em =  Encode.DecodeMessage(m);
+					Channeler.SendMessage(em);
+					mKnown = m;
+				}
+				mKnown = 0;
                 //knownMessage(m);
               //}
             }//else hwlib::cout << "MSGDecoderControl: Check returned false!\n";

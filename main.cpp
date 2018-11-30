@@ -40,7 +40,7 @@ int main(void){
 	 namespace target = hwlib::target;
 	// <<<<<<<<<< Initialization of Data >>>>>>>>>>//
 	// <<<<<<<<<< All pins used >>>>>>>>>>//
-	hwlib::target::pins irReceiverPinID 		=  	hwlib::target::pins::d10;
+	hwlib::target::pins irReceiverPinID 		=  	hwlib::target::pins::d50;
 	hwlib::target::pins playerDisplaySCLPinID 	=  	hwlib::target::pins::scl;
 	hwlib::target::pins playerDisplaySDAPinID 	=  	hwlib::target::pins::sda;
 	hwlib::target::pins digitLedDisplayCLKPinID =  	hwlib::target::pins::d24;
